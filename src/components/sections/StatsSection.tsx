@@ -29,7 +29,7 @@ function OdometerDigit({ digit, delay }: { digit: string; delay: number }) {
       <motion.span
         className="flex flex-col"
         initial={{ y: 0 }}
-        animate={{ y: `${-targetIndex * 100}%` }}
+        animate={{ y: `${-targetIndex * 10}%` }}
         transition={{
           duration: 0.6,
           delay,
