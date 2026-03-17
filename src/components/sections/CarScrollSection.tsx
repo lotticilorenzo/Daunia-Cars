@@ -3,6 +3,7 @@
 import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { prefersReducedMotion } from '@/lib/gsap-utils'
+import { useLenis } from '@/components/ui/SmoothScrollProvider'
 
 // ─── SVG Car ──────────────────────────────────────────────────────────────────
 
@@ -197,7 +198,12 @@ export default function CarScrollSection() {
   const trailRef = useRef<HTMLDivElement>(null)
   const brandRef = useRef<HTMLDivElement>(null)
   const taglineRef = useRef<HTMLParagraphElement>(null)
+
+  // Istanza Lenis dal context: si attiva dopo che SmoothScrollProvider è pronto
+  const lenis = useLenis()
+
   useEffect(() => {
+    if (!lenis) return  // aspetta Lenis
     if (prefersReducedMotion()) return
     if (window.innerWidth < 768) return
 
@@ -216,11 +222,11 @@ export default function CarScrollSection() {
     gsap.set(trail, { scaleX: 0, opacity: 0 })
 
     const onScroll = () => {
+      // getBoundingClientRect() è aggiornato dopo che Lenis muove la posizione scroll
       const rect = section.getBoundingClientRect()
       const scrollable = section.offsetHeight - window.innerHeight
       if (scrollable <= 0) return
 
-      // progress: 0 = sezione entra dall'alto, 1 = sezione esce dall'alto
       const p = Math.max(0, Math.min(1, -rect.top / scrollable))
 
       // ── Auto: da -25vw a 130vw ──
@@ -233,39 +239,31 @@ export default function CarScrollSection() {
 
       // ── Brand name ──
       if (p < 0.25) {
-        // Prima che arrivi: nascosto
         gsap.set(brand, { clipPath: 'inset(0 100% 0 0)', opacity: 1 })
         gsap.set(tagline, { opacity: 0, y: 16 })
       } else if (p < 0.55) {
-        // Reveal progressivo (25%→55%)
         const bp = (p - 0.25) / 0.30
         gsap.set(brand, { clipPath: `inset(0 ${Math.round((1 - bp) * 100)}% 0 0)`, opacity: 1 })
         gsap.set(tagline, { opacity: Math.min(1, bp * 2), y: Math.max(0, 16 * (1 - bp * 2)) })
       } else if (p < 0.75) {
-        // Completamente visibile (55%→75%)
         gsap.set(brand, { clipPath: 'inset(0 0% 0 0)', opacity: 1 })
         gsap.set(tagline, { opacity: 1, y: 0 })
       } else {
-        // Scompare (75%→100%)
         const bp = (p - 0.75) / 0.25
         gsap.set(brand, { clipPath: `inset(0 0% 0 ${Math.round(bp * 100)}%)`, opacity: Math.max(0, 1 - bp) })
         gsap.set(tagline, { opacity: Math.max(0, 1 - bp * 3) })
       }
     }
 
-    // RAF loop: legge getBoundingClientRect() ogni frame
-    // Bypassa completamente la dipendenza da scroll events (Lenis o nativi)
-    let rafId: number
-    const tick = () => {
-      onScroll()
-      rafId = requestAnimationFrame(tick)
-    }
-    rafId = requestAnimationFrame(tick)
+    // lenis.on('scroll') si attiva DOPO che Lenis aggiorna posizione e transforms:
+    // getBoundingClientRect() è già corretto in questo callback
+    lenis.on('scroll', onScroll)
+    onScroll() // applica stato iniziale
 
     return () => {
-      cancelAnimationFrame(rafId)
+      lenis.off('scroll', onScroll)
     }
-  }, [])
+  }, [lenis])
 
   return (
     <>
