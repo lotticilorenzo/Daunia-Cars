@@ -253,12 +253,17 @@ export default function CarScrollSection() {
       }
     }
 
-    // Lenis calls window.scrollTo() internally → native scroll events fire
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll() // stato iniziale
+    // RAF loop: legge getBoundingClientRect() ogni frame
+    // Bypassa completamente la dipendenza da scroll events (Lenis o nativi)
+    let rafId: number
+    const tick = () => {
+      onScroll()
+      rafId = requestAnimationFrame(tick)
+    }
+    rafId = requestAnimationFrame(tick)
 
     return () => {
-      window.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(rafId)
     }
   }, [])
 
