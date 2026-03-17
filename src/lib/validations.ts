@@ -152,3 +152,30 @@ export const financingFormSchema = contactBaseSchema.extend({
 })
 
 export type FinancingFormValues = z.infer<typeof financingFormSchema>
+
+// ─────────────────────────────────────────────
+// SCHEMA — FORM LAVORA CON NOI
+// ─────────────────────────────────────────────
+
+export const jobApplicationSchema = z.object({
+  firstName: z
+    .string()
+    .min(2, 'Il nome deve avere almeno 2 caratteri')
+    .max(50, 'Nome troppo lungo'),
+  lastName: z
+    .string()
+    .min(2, 'Il cognome deve avere almeno 2 caratteri')
+    .max(50, 'Cognome troppo lungo'),
+  email: z.string().email('Inserisci un indirizzo email valido'),
+  phone: z.string().regex(phoneRegex, 'Inserisci un numero di telefono italiano valido'),
+  position: z.string().max(100, 'Posizione troppo lunga').optional(),
+  coverLetter: z
+    .string()
+    .min(30, 'La lettera di presentazione deve avere almeno 30 caratteri')
+    .max(2000, 'Testo troppo lungo'),
+  privacyConsent: z
+    .boolean()
+    .refine((v) => v === true, 'Devi accettare la privacy policy per continuare'),
+})
+
+export type JobApplicationValues = z.infer<typeof jobApplicationSchema>

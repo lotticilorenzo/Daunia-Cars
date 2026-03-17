@@ -21,6 +21,7 @@ const NAV_ITEMS = [
   { label: 'Chi Siamo', href: '/chi-siamo' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contatti', href: '/contatti' },
+  { label: 'Lavora con Noi', href: '/lavora-con-noi' },
 ]
 
 const staggerContainer = {

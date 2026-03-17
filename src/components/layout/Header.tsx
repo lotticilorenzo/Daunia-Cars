@@ -59,6 +59,7 @@ const NAV_LINKS = [
   },
   { label: 'Chi Siamo', href: '/chi-siamo' },
   { label: 'Blog', href: '/blog' },
+  { label: 'Contatti', href: '/contatti' },
 ]
 
 export const Header = memo(function Header() {

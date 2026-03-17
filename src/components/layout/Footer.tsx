@@ -13,7 +13,7 @@ const COMPANY_LINKS = [
   { label: 'Chi Siamo', href: '/chi-siamo' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contatti', href: '/contatti' },
-  { label: 'Lavora con Noi', href: '/contatti' },
+  { label: 'Lavora con Noi', href: '/lavora-con-noi' },
 ]
 
 export function Footer() {
