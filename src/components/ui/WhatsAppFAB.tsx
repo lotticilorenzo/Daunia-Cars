@@ -4,7 +4,7 @@ import { memo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { WhatsappLogo } from '@phosphor-icons/react'
 
-const WA_NUMBER = '[PHONE]'
+const WA_NUMBER = '+39 0521 000000'
 const WA_MESSAGE = encodeURIComponent('Ciao, vorrei informazioni su...')
 const WA_HREF = `https://wa.me/${WA_NUMBER}?text=${WA_MESSAGE}`
 

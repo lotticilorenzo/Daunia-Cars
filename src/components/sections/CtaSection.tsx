@@ -27,7 +27,7 @@ export function CtaSection() {
             Prenota Ora
           </a>
           <a
-            href="tel:[PHONE]"
+            href="tel:+390521000000"
             className="inline-flex items-center justify-center px-8 py-4 rounded-full border-2 border-white text-white font-body font-semibold text-base hover:bg-white/10 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             aria-label="Chiama Daunia Cars"
           >

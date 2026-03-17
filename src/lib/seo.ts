@@ -69,8 +69,8 @@ export function localBusinessJsonLd() {
     '@type': ['LocalBusiness', 'AutoDealer'],
     name: SITE_NAME,
     url: BASE_URL,
-    telephone: '[PHONE]',
-    email: '[EMAIL]',
+    telephone: '+39 0521 000000',
+    email: 'info@dauniacars.it',
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'Strada Langhirano 264/1',

@@ -290,7 +290,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       color: TEXT_SECONDARY,
     })
 
-    page.drawText('[PHONE]  ·  [EMAIL]  ·  P.IVA [VAT]', {
+    page.drawText('+39 0521 000000  ·  info@dauniacars.it  ·  P.IVA IT00000000000', {
       x: 24,
       y: footerY - 12,
       size: 7,

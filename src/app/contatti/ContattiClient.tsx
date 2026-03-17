@@ -38,14 +38,14 @@ const contactCards: ContactCard[] = [
   {
     icon: <Phone size={22} weight="fill" className="text-accent shrink-0" />,
     label: 'Telefono',
-    value: '[PHONE]',
-    href: 'tel:[PHONE]',
+    value: '+39 0521 000000',
+    href: 'tel:+390521000000',
   },
   {
     icon: <Envelope size={22} weight="fill" className="text-accent shrink-0" />,
     label: 'Email',
-    value: '[EMAIL]',
-    href: 'mailto:[EMAIL]',
+    value: 'info@dauniacars.it',
+    href: 'mailto:info@dauniacars.it',
   },
   {
     icon: <MapPin size={22} weight="fill" className="text-accent shrink-0" />,
@@ -229,7 +229,7 @@ export function ContattiClient() {
             </a>
 
             <a
-              href="https://wa.me/[PHONE]"
+              href="https://wa.me/+39 0521 000000"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Contatta Daunia Cars su WhatsApp"

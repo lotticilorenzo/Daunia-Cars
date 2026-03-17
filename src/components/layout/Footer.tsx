@@ -54,7 +54,7 @@ export function Footer() {
                 <InstagramLogo size={20} weight="fill" aria-hidden="true" />
               </a>
               <a
-                href="https://wa.me/[PHONE]"
+                href="https://wa.me/390521000000"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Daunia Cars su WhatsApp"
@@ -118,19 +118,19 @@ export function Footer() {
               <li className="flex items-center gap-2.5">
                 <Phone size={16} weight="regular" className="text-accent shrink-0" aria-hidden="true" />
                 <a
-                  href="tel:[PHONE]"
+                  href="tel:+390521000000"
                   className="font-mono text-sm text-text-secondary hover:text-text-primary transition-colors"
                 >
-                  [PHONE]
+                  +39 0521 000000
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
                 <Envelope size={16} weight="regular" className="text-accent shrink-0" aria-hidden="true" />
                 <a
-                  href="mailto:[EMAIL]"
+                  href="mailto:info@dauniacars.it"
                   className="font-body text-sm text-text-secondary hover:text-text-primary transition-colors"
                 >
-                  [EMAIL]
+                  info@dauniacars.it
                 </a>
               </li>
               <li className="flex items-start gap-2.5">
@@ -158,7 +158,7 @@ export function Footer() {
           </div>
 
           <p className="font-mono text-[11px] text-text-muted order-last sm:order-none">
-            &copy; {new Date().getFullYear()} Daunia Cars S.r.l. &middot; P.IVA [VAT]
+            &copy; {new Date().getFullYear()} Daunia Cars S.r.l. &middot; P.IVA IT00000000000
           </p>
 
           <div className="flex items-center gap-4">
