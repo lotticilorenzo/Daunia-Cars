@@ -276,7 +276,7 @@ export default function CarScrollSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-hidden bg-[#070709]"
+      className="relative w-full bg-bg"
       style={{ height: '100dvh' }}
     >
       {/* ── Dark vignette overlay (dims during car pass) ── */}
@@ -368,7 +368,6 @@ export default function CarScrollSection() {
         style={{
           bottom: '22%',
           left: 0,
-          transform: 'translateX(-28vw)',
           willChange: 'transform',
         }}
       >

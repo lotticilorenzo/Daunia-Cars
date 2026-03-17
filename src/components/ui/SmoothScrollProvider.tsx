@@ -17,31 +17,30 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
     gsap.registerPlugin(ScrollTrigger)
 
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
+      lerp: 0.1,           // Lenis v1.x API — sostituisce duration+easing
       smoothWheel: true,
       wheelMultiplier: 1,
       touchMultiplier: 2,
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
     })
 
     lenisRef.current = lenis
 
-    // Sync Lenis scroll time with GSAP ScrollTrigger
+    // Sync Lenis → GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update)
 
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000)
-    })
-
+    const rafCallback = (time: number) => { lenis.raf(time * 1000) }
+    gsap.ticker.add(rafCallback)
     gsap.ticker.lagSmoothing(0)
+
+    // Refresh ScrollTrigger dopo che Lenis ha preso il controllo dello scroll
+    ScrollTrigger.refresh()
 
     return () => {
       lenis.destroy()
-      gsap.ticker.remove((time) => {
-        lenis.raf(time * 1000)
-      })
+      gsap.ticker.remove(rafCallback)
+      ScrollTrigger.clearScrollMemory()
     }
   }, [])
 
