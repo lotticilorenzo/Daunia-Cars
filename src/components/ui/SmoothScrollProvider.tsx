@@ -34,10 +34,12 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
     gsap.ticker.add(rafCallback)
     gsap.ticker.lagSmoothing(0)
 
-    // Refresh ScrollTrigger dopo che Lenis ha preso il controllo dello scroll
-    ScrollTrigger.refresh()
+    // Refresh ScrollTrigger dopo che tutti i componenti figli hanno montato
+    // Timeout 0 → next tick, dopo mount completo del DOM
+    const refreshId = setTimeout(() => ScrollTrigger.refresh(), 0)
 
     return () => {
+      clearTimeout(refreshId)
       lenis.destroy()
       gsap.ticker.remove(rafCallback)
       ScrollTrigger.clearScrollMemory()

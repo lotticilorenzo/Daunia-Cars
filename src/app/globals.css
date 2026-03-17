@@ -64,9 +64,13 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior gestito da Lenis — non usare smooth qui */
+  scroll-behavior: auto;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* overflow-x: clip su html non crea scroll container (a differenza di hidden su body)
+     → GSAP ScrollTrigger pin funziona correttamente */
+  overflow-x: clip;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -83,7 +87,7 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  /* overflow-x rimosso da body — gestito da html con overflow-x: clip */
 }
 
 img,
