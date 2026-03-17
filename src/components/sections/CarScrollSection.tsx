@@ -3,7 +3,6 @@
 import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { prefersReducedMotion } from '@/lib/gsap-utils'
 import { useLenis } from '@/components/ui/SmoothScrollProvider'
 
 // ─── SVG Auto ─────────────────────────────────────────────────────────────────
@@ -43,7 +42,6 @@ function CarSVG({ className }: { className?: string }) {
       <path d="M88 178 L116 178" stroke="#E8F0FF" strokeWidth="3" strokeLinecap="round" opacity="0.7" />
       <rect x="808" y="158" width="18" height="16" rx="3" fill="#C41C0C" opacity="0.95" />
       <rect x="810" y="160" width="14" height="12" rx="2" fill="#FF5533" opacity="0.6" />
-      {/* Ruota anteriore */}
       <path d="M128 215 Q128 170 175 170 Q222 170 222 215 Z" fill="#141416" />
       <circle cx="175" cy="228" r="44" fill="#141416" />
       <circle cx="175" cy="228" r="34" fill="#1E1E24" />
@@ -54,7 +52,6 @@ function CarSVG({ className }: { className?: string }) {
         return <line key={i} x1={175+9*Math.cos(r)} y1={228+9*Math.sin(r)} x2={175+22*Math.cos(r)} y2={228+22*Math.sin(r)} stroke="#3A3A42" strokeWidth="2.5" />
       })}
       <circle cx="175" cy="228" r="44" fill="none" stroke="#0A0A0C" strokeWidth="8" />
-      {/* Ruota posteriore */}
       <path d="M665 215 Q665 170 712 170 Q759 170 759 215 Z" fill="#141416" />
       <circle cx="712" cy="228" r="44" fill="#141416" />
       <circle cx="712" cy="228" r="34" fill="#1E1E24" />
@@ -72,93 +69,132 @@ function CarSVG({ className }: { className?: string }) {
 
 // ─── Componente principale ────────────────────────────────────────────────────
 export default function CarScrollSection() {
-  const sectionRef = useRef<HTMLElement>(null)
+  // spacerRef = sezione esterna 300vh che crea lo spazio di scroll
+  const spacerRef = useRef<HTMLElement>(null)
+  // stickyRef = contenitore sticky 100vh che resta nel viewport
+  const stickyRef = useRef<HTMLDivElement>(null)
   const carWrapRef = useRef<HTMLDivElement>(null)
   const trailRef = useRef<HTMLDivElement>(null)
   const brandRef = useRef<HTMLDivElement>(null)
   const taglineRef = useRef<HTMLParagraphElement>(null)
 
+  // Lenis è già sincronizzato con ScrollTrigger in SmoothScrollProvider
   const lenis = useLenis()
 
   useEffect(() => {
-    // Aspetta Lenis — garantisce che ScrollTrigger+Lenis siano già sincronizzati
+    // Aspetta che Lenis sia pronto (garantisce che lenis.on('scroll', ScrollTrigger.update) sia attivo)
     if (!lenis) return
-    if (prefersReducedMotion()) return
-    if (window.innerWidth < 768) return
 
-    const section = sectionRef.current
+    const spacer = spacerRef.current
     const carWrap = carWrapRef.current
     const trail = trailRef.current
     const brand = brandRef.current
     const tagline = taglineRef.current
-    if (!section || !carWrap || !trail || !brand || !tagline) return
+    if (!spacer || !carWrap || !trail || !brand || !tagline) return
+
+    // Check prefers-reduced-motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     gsap.registerPlugin(ScrollTrigger)
 
     const ctx = gsap.context(() => {
-      // Timeline principale — legata allo scroll tramite ScrollTrigger
-      const tl = gsap.timeline({
+      // Stato iniziale
+      gsap.set(carWrap, { x: '-30vw' })
+      gsap.set(brand, { clipPath: 'inset(0 100% 0 0)' })
+      gsap.set(tagline, { opacity: 0, y: 16 })
+      gsap.set(trail, { scaleX: 0, opacity: 0, transformOrigin: 'right center' })
+
+      // ── Auto: da -30vw a +130vw lungo tutto lo scroll della sezione ──
+      gsap.to(carWrap, {
+        x: '130vw',
+        ease: 'none',
         scrollTrigger: {
-          trigger: section,
+          trigger: spacer,
           start: 'top top',
-          end: '+=250%',        // pin per 2.5x viewport height
-          pin: true,
+          end: 'bottom bottom',
           scrub: 1.5,
-          anticipatePin: 1,
           invalidateOnRefresh: true,
         },
       })
 
-      // ── Auto: da fuori sinistra a fuori destra ──
-      tl.fromTo(
-        carWrap,
-        { x: '-30vw' },
-        { x: '130vw', ease: 'none', duration: 10 },
-        0,
-      )
+      // ── Scia: appare (0→35%) e scompare (75→100%) ──
+      gsap.to(trail, {
+        scaleX: 1,
+        opacity: 0.85,
+        ease: 'power1.out',
+        scrollTrigger: {
+          trigger: spacer,
+          start: 'top top',
+          end: '35% top',
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+      })
+      gsap.to(trail, {
+        opacity: 0,
+        ease: 'power1.in',
+        scrollTrigger: {
+          trigger: spacer,
+          start: '75% top',
+          end: 'bottom bottom',
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+      })
 
-      // ── Scia: appare e scompare ──
-      tl.fromTo(
-        trail,
-        { scaleX: 0, opacity: 0 },
-        { scaleX: 1, opacity: 0.85, ease: 'power1.out', duration: 2 },
-        0,
-      )
-      tl.to(
-        trail,
-        { scaleX: 1, opacity: 0, ease: 'power1.in', duration: 2 },
-        8,
-      )
+      // ── Brand: wipe-in (20→50%), stabile, wipe-out (70→90%) ──
+      gsap.to(brand, {
+        clipPath: 'inset(0 0% 0 0)',
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: spacer,
+          start: '20% top',
+          end: '50% top',
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+      })
+      gsap.to(brand, {
+        clipPath: 'inset(0 0% 0 100%)',
+        ease: 'power2.in',
+        scrollTrigger: {
+          trigger: spacer,
+          start: '70% top',
+          end: '90% top',
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+      })
 
-      // ── Brand: wipe-in al 25%, stabile, wipe-out al 75% ──
-      tl.fromTo(
-        brand,
-        { clipPath: 'inset(0 100% 0 0)' },
-        { clipPath: 'inset(0 0% 0 0)', ease: 'power2.out', duration: 3 },
-        2.5,
-      )
-      tl.to(
-        brand,
-        { clipPath: 'inset(0 0% 0 100%)', ease: 'power2.in', duration: 2 },
-        7.5,
-      )
+      // ── Tagline: fade-up (25→50%), fade-out (72→88%) ──
+      gsap.to(tagline, {
+        opacity: 1,
+        y: 0,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: spacer,
+          start: '25% top',
+          end: '50% top',
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+      })
+      gsap.to(tagline, {
+        opacity: 0,
+        y: -8,
+        ease: 'power2.in',
+        scrollTrigger: {
+          trigger: spacer,
+          start: '72% top',
+          end: '88% top',
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+      })
 
-      // ── Tagline: fade-up insieme al brand ──
-      tl.fromTo(
-        tagline,
-        { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, ease: 'power2.out', duration: 2 },
-        3.5,
-      )
-      tl.to(
-        tagline,
-        { opacity: 0, y: -8, ease: 'power2.in', duration: 1.5 },
-        8,
-      )
-
-      // Refresh dopo setup per assicurare misure corrette
-      setTimeout(() => ScrollTrigger.refresh(), 100)
-    }, section)
+      // Refresh per misure corrette dopo mount
+      setTimeout(() => ScrollTrigger.refresh(), 150)
+    })
 
     return () => {
       ctx.revert()
@@ -167,144 +203,131 @@ export default function CarScrollSection() {
 
   return (
     <>
-      {/* ── Desktop: sezione GSAP ScrollTrigger pinned ── */}
+      {/* ── Desktop: spacer 300vh + sticky 100vh ── */}
       <section
-        ref={sectionRef}
-        className="hidden md:block relative w-full bg-bg overflow-hidden"
-        style={{ height: '100vh' }}
+        ref={spacerRef}
+        className="hidden md:block relative"
+        style={{ height: '300vh' }}
         aria-label="Daunia Cars — in movimento"
       >
-        {/* Griglia di sfondo */}
+        {/* Il div sticky resta nel viewport mentre si scrolla il spacer */}
         <div
-          className="absolute inset-0 pointer-events-none"
+          ref={stickyRef}
+          className="sticky top-0 w-full bg-bg overflow-hidden"
+          style={{ height: '100vh' }}
           aria-hidden="true"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)',
-            backgroundSize: '80px 80px',
-          }}
-        />
-
-        {/* Gradiente strada */}
-        <div
-          className="absolute bottom-0 left-0 right-0 pointer-events-none"
-          aria-hidden="true"
-          style={{
-            height: '38%',
-            background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%)',
-          }}
-        />
-
-        {/* Segni stradali */}
-        <div
-          className="absolute left-0 right-0 pointer-events-none"
-          aria-hidden="true"
-          style={{ bottom: '27%', height: '2px' }}
         >
-          {Array.from({ length: 20 }).map((_, i) => (
+          {/* Griglia */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              backgroundImage:
+                'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)',
+              backgroundSize: '80px 80px',
+            }}
+          />
+
+          {/* Gradiente strada */}
+          <div
+            className="absolute bottom-0 left-0 right-0 pointer-events-none"
+            style={{
+              height: '38%',
+              background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%)',
+            }}
+          />
+
+          {/* Segni stradali */}
+          <div
+            className="absolute left-0 right-0 pointer-events-none"
+            style={{ bottom: '27%', height: '2px' }}
+          >
+            {Array.from({ length: 20 }).map((_, i) => (
+              <div
+                key={i}
+                className="absolute h-full rounded-full"
+                style={{ left: `${i * 5.5}%`, width: '3%', background: 'rgba(255,255,255,0.06)' }}
+              />
+            ))}
+          </div>
+
+          {/* Speed lines */}
+          <svg
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            preserveAspectRatio="none"
+          >
+            {[12, 25, 38, 48, 57, 67, 75, 84].map((y, i) => (
+              <line
+                key={i}
+                x1="0" y1={`${y}%`} x2="100%" y2={`${y}%`}
+                stroke="rgba(196,28,12,0.1)"
+                strokeWidth={i % 3 === 0 ? '1.5' : '0.8'}
+              />
+            ))}
+          </svg>
+
+          {/* Brand name */}
+          <div
+            ref={brandRef}
+            className="absolute inset-0 flex flex-col items-center justify-center select-none pointer-events-none"
+            style={{ clipPath: 'inset(0 100% 0 0)' }}
+          >
+            <span
+              className="font-display font-black text-white leading-none tracking-tighter"
+              style={{ fontSize: 'clamp(5rem, 14vw, 13rem)', textShadow: '0 0 80px rgba(196,28,12,0.3)' }}
+            >
+              DAUNIA
+            </span>
+            <span
+              className="font-display font-black leading-none tracking-tighter"
+              style={{ fontSize: 'clamp(5rem, 14vw, 13rem)', color: '#C41C0C', textShadow: '0 0 80px rgba(196,28,12,0.6)' }}
+            >
+              CARS
+            </span>
+          </div>
+
+          {/* Tagline */}
+          <p
+            ref={taglineRef}
+            className="absolute left-0 right-0 text-center select-none font-body text-text-muted tracking-[0.25em] uppercase pointer-events-none"
+            style={{ bottom: '20%', fontSize: 'clamp(0.65rem, 1.2vw, 0.875rem)', opacity: 0 }}
+          >
+            Noleggio &amp; Vendita Auto · Parma
+          </p>
+
+          {/* Auto + scia */}
+          <div
+            ref={carWrapRef}
+            className="absolute pointer-events-none"
+            style={{ bottom: '22%', left: 0, willChange: 'transform' }}
+          >
+            {/* Scia */}
             <div
-              key={i}
-              className="absolute h-full rounded-full"
-              style={{ left: `${i * 5.5}%`, width: '3%', background: 'rgba(255,255,255,0.06)' }}
+              ref={trailRef}
+              className="absolute"
+              style={{
+                right: '100%',
+                top: '25%',
+                width: '55vw',
+                height: '50%',
+                background: 'linear-gradient(to right, transparent, rgba(196,28,12,0.05) 40%, rgba(200,200,220,0.03))',
+                filter: 'blur(10px)',
+                transformOrigin: 'right center',
+              }}
             />
-          ))}
-        </div>
-
-        {/* Speed lines */}
-        <svg
-          className="absolute inset-0 w-full h-full pointer-events-none"
-          aria-hidden="true"
-          preserveAspectRatio="none"
-        >
-          {[12, 25, 38, 48, 57, 67, 75, 84].map((y, i) => (
-            <line
-              key={i}
-              x1="0" y1={`${y}%`} x2="100%" y2={`${y}%`}
-              stroke="rgba(196,28,12,0.1)"
-              strokeWidth={i % 3 === 0 ? '1.5' : '0.8'}
+            {/* Cono luci */}
+            <div
+              className="absolute"
+              style={{
+                left: '-25%',
+                top: '15%',
+                width: '30%',
+                height: '70%',
+                background: 'linear-gradient(to left, transparent, rgba(220,235,255,0.03))',
+                filter: 'blur(14px)',
+              }}
             />
-          ))}
-        </svg>
-
-        {/* Brand name */}
-        <div
-          ref={brandRef}
-          className="absolute inset-0 flex flex-col items-center justify-center select-none pointer-events-none"
-          style={{ clipPath: 'inset(0 100% 0 0)' }}
-          aria-hidden="true"
-        >
-          <span
-            className="font-display font-black text-white leading-none tracking-tighter"
-            style={{
-              fontSize: 'clamp(5rem, 14vw, 13rem)',
-              textShadow: '0 0 80px rgba(196,28,12,0.3)',
-            }}
-          >
-            DAUNIA
-          </span>
-          <span
-            className="font-display font-black leading-none tracking-tighter"
-            style={{
-              fontSize: 'clamp(5rem, 14vw, 13rem)',
-              color: '#C41C0C',
-              textShadow: '0 0 80px rgba(196,28,12,0.6)',
-            }}
-          >
-            CARS
-          </span>
-        </div>
-
-        {/* Tagline */}
-        <p
-          ref={taglineRef}
-          className="absolute left-0 right-0 text-center select-none font-body text-text-muted tracking-[0.25em] uppercase pointer-events-none"
-          style={{
-            bottom: '20%',
-            fontSize: 'clamp(0.65rem, 1.2vw, 0.875rem)',
-            opacity: 0,
-          }}
-          aria-hidden="true"
-        >
-          Noleggio &amp; Vendita Auto · Parma
-        </p>
-
-        {/* Auto + scia */}
-        <div
-          ref={carWrapRef}
-          className="absolute pointer-events-none"
-          style={{ bottom: '22%', left: 0, willChange: 'transform' }}
-          aria-hidden="true"
-        >
-          {/* Scia */}
-          <div
-            ref={trailRef}
-            className="absolute"
-            style={{
-              right: '100%',
-              top: '25%',
-              width: '55vw',
-              height: '50%',
-              background:
-                'linear-gradient(to right, transparent, rgba(196,28,12,0.05) 40%, rgba(200,200,220,0.03))',
-              filter: 'blur(10px)',
-              transformOrigin: 'right center',
-              transform: 'scaleX(0)',
-              opacity: 0,
-            }}
-          />
-          {/* Cono luci */}
-          <div
-            className="absolute"
-            style={{
-              left: '-25%',
-              top: '15%',
-              width: '30%',
-              height: '70%',
-              background: 'linear-gradient(to left, transparent, rgba(220,235,255,0.03))',
-              filter: 'blur(14px)',
-            }}
-          />
-          <CarSVG className="relative z-10 w-[clamp(420px,52vw,780px)]" />
+            <CarSVG className="relative z-10 w-[clamp(420px,52vw,780px)]" />
+          </div>
         </div>
       </section>
 
@@ -312,12 +335,8 @@ export default function CarScrollSection() {
       <div className="md:hidden w-full bg-bg py-16 px-6 flex flex-col items-center gap-6">
         <CarSVG className="w-[80vw] max-w-[360px]" />
         <div className="text-center">
-          <p className="font-display font-black text-white leading-none tracking-tighter text-[2.5rem]">
-            DAUNIA
-          </p>
-          <p className="font-display font-black leading-none tracking-tighter text-[2.5rem] text-accent">
-            CARS
-          </p>
+          <p className="font-display font-black text-white leading-none tracking-tighter text-[2.5rem]">DAUNIA</p>
+          <p className="font-display font-black leading-none tracking-tighter text-[2.5rem] text-accent">CARS</p>
           <p className="font-body text-text-muted text-xs uppercase tracking-[0.2em] mt-3">
             Noleggio &amp; Vendita Auto · Parma
           </p>
