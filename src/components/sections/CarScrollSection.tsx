@@ -2,19 +2,9 @@
 
 import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { prefersReducedMotion } from '@/lib/gsap-utils'
 import { useLenis } from '@/components/ui/SmoothScrollProvider'
-
-// ─── Calcola la distanza di un elemento dalla cima del documento ───────────────
-function getDocumentTop(el: HTMLElement): number {
-  let top = 0
-  let node: HTMLElement | null = el
-  while (node) {
-    top += node.offsetTop
-    node = node.offsetParent as HTMLElement | null
-  }
-  return top
-}
 
 // ─── SVG Auto ─────────────────────────────────────────────────────────────────
 function CarSVG({ className }: { className?: string }) {
@@ -82,10 +72,7 @@ function CarSVG({ className }: { className?: string }) {
 
 // ─── Componente principale ────────────────────────────────────────────────────
 export default function CarScrollSection() {
-  // Sezione spacer: occupa 300vh nel flusso della pagina
-  const spacerRef = useRef<HTMLElement>(null)
-  // Overlay fixed: sempre nel viewport, mostrato solo quando siamo nella sezione
-  const overlayRef = useRef<HTMLDivElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
   const carWrapRef = useRef<HTMLDivElement>(null)
   const trailRef = useRef<HTMLDivElement>(null)
   const brandRef = useRef<HTMLDivElement>(null)
@@ -94,109 +81,103 @@ export default function CarScrollSection() {
   const lenis = useLenis()
 
   useEffect(() => {
+    // Aspetta Lenis — garantisce che ScrollTrigger+Lenis siano già sincronizzati
     if (!lenis) return
     if (prefersReducedMotion()) return
     if (window.innerWidth < 768) return
 
-    const spacer = spacerRef.current
-    const overlay = overlayRef.current
+    const section = sectionRef.current
     const carWrap = carWrapRef.current
     const trail = trailRef.current
     const brand = brandRef.current
     const tagline = taglineRef.current
+    if (!section || !carWrap || !trail || !brand || !tagline) return
 
-    if (!spacer || !overlay || !carWrap || !trail || !brand || !tagline) return
+    gsap.registerPlugin(ScrollTrigger)
 
-    // Stato iniziale: overlay nascosto
-    overlay.style.opacity = '0'
-    gsap.set(carWrap, { x: '-25vw' })
-    gsap.set(brand, { clipPath: 'inset(0 100% 0 0)', opacity: 1 })
-    gsap.set(tagline, { opacity: 0, y: 16 })
-    gsap.set(trail, { scaleX: 0, opacity: 0 })
+    const ctx = gsap.context(() => {
+      // Timeline principale — legata allo scroll tramite ScrollTrigger
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: '+=250%',        // pin per 2.5x viewport height
+          pin: true,
+          scrub: 1.5,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      })
 
-    const handler = () => {
-      // Posizione della sezione spacer nel documento (non dipende dallo scroll)
-      const sectionTop = getDocumentTop(spacer)
-      const sectionHeight = spacer.offsetHeight
-      const scrollable = sectionHeight - window.innerHeight
+      // ── Auto: da fuori sinistra a fuori destra ──
+      tl.fromTo(
+        carWrap,
+        { x: '-30vw' },
+        { x: '130vw', ease: 'none', duration: 10 },
+        0,
+      )
 
-      // lenis.scroll = posizione scroll reale/virtuale di Lenis
-      const scroll = lenis.scroll
+      // ── Scia: appare e scompare ──
+      tl.fromTo(
+        trail,
+        { scaleX: 0, opacity: 0 },
+        { scaleX: 1, opacity: 0.85, ease: 'power1.out', duration: 2 },
+        0,
+      )
+      tl.to(
+        trail,
+        { scaleX: 1, opacity: 0, ease: 'power1.in', duration: 2 },
+        8,
+      )
 
-      // Mostra overlay solo mentre siamo nella sezione spacer
-      const active = scroll >= sectionTop && scroll <= sectionTop + scrollable
-      overlay.style.opacity = active ? '1' : '0'
+      // ── Brand: wipe-in al 25%, stabile, wipe-out al 75% ──
+      tl.fromTo(
+        brand,
+        { clipPath: 'inset(0 100% 0 0)' },
+        { clipPath: 'inset(0 0% 0 0)', ease: 'power2.out', duration: 3 },
+        2.5,
+      )
+      tl.to(
+        brand,
+        { clipPath: 'inset(0 0% 0 100%)', ease: 'power2.in', duration: 2 },
+        7.5,
+      )
 
-      if (!active) return
+      // ── Tagline: fade-up insieme al brand ──
+      tl.fromTo(
+        tagline,
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, ease: 'power2.out', duration: 2 },
+        3.5,
+      )
+      tl.to(
+        tagline,
+        { opacity: 0, y: -8, ease: 'power2.in', duration: 1.5 },
+        8,
+      )
 
-      // Progress 0→1 attraverso la sezione
-      const p = Math.max(0, Math.min(1, (scroll - sectionTop) / scrollable))
-
-      // Auto: da -25vw a 130vw
-      gsap.set(carWrap, { x: `${-25 + p * 155}vw` })
-
-      // Scia
-      const trailScale = Math.min(1, p * 5)
-      const trailOpacity = p < 0.85 ? Math.min(0.85, p * 5) : Math.max(0, (1 - p) * 6.7)
-      gsap.set(trail, { scaleX: trailScale, opacity: trailOpacity })
-
-      // Brand name: appare al 25%, scompare al 75%
-      if (p < 0.25) {
-        gsap.set(brand, { clipPath: 'inset(0 100% 0 0)', opacity: 1 })
-        gsap.set(tagline, { opacity: 0, y: 16 })
-      } else if (p < 0.55) {
-        const bp = (p - 0.25) / 0.3
-        gsap.set(brand, { clipPath: `inset(0 ${Math.round((1 - bp) * 100)}% 0 0)`, opacity: 1 })
-        gsap.set(tagline, { opacity: Math.min(1, bp * 2), y: Math.max(0, 16 * (1 - bp * 2)) })
-      } else if (p < 0.75) {
-        gsap.set(brand, { clipPath: 'inset(0 0% 0 0)', opacity: 1 })
-        gsap.set(tagline, { opacity: 1, y: 0 })
-      } else {
-        const bp = (p - 0.75) / 0.25
-        gsap.set(brand, {
-          clipPath: `inset(0 0% 0 ${Math.round(bp * 100)}%)`,
-          opacity: Math.max(0, 1 - bp),
-        })
-        gsap.set(tagline, { opacity: Math.max(0, 1 - bp * 3) })
-      }
-    }
-
-    // Usa il return value di lenis.on() come cleanup (pattern ufficiale Lenis v1.x)
-    const cleanup = lenis.on('scroll', handler) as unknown as (() => void) | undefined
-    handler() // stato iniziale
+      // Refresh dopo setup per assicurare misure corrette
+      setTimeout(() => ScrollTrigger.refresh(), 100)
+    }, section)
 
     return () => {
-      if (typeof cleanup === 'function') {
-        cleanup()
-      } else {
-        // Fallback per versioni che non restituiscono cleanup
-        ;(lenis as unknown as { off: (e: string, h: () => void) => void }).off('scroll', handler)
-      }
-      // Nascondi overlay al cleanup
-      if (overlay) overlay.style.opacity = '0'
+      ctx.revert()
     }
   }, [lenis])
 
   return (
     <>
-      {/* ── SPACER: 300vh nel flusso della pagina, crea lo spazio scroll ── */}
+      {/* ── Desktop: sezione GSAP ScrollTrigger pinned ── */}
       <section
-        ref={spacerRef}
-        className="relative w-full bg-bg"
-        style={{ height: '300vh' }}
+        ref={sectionRef}
+        className="hidden md:block relative w-full bg-bg overflow-hidden"
+        style={{ height: '100vh' }}
         aria-label="Daunia Cars — in movimento"
-      />
-
-      {/* ── OVERLAY FIXED: sempre nel viewport, z sopra il contenuto ma sotto l'header ── */}
-      <div
-        ref={overlayRef}
-        className="fixed inset-0 bg-bg pointer-events-none"
-        style={{ zIndex: 40, opacity: 0 }}
-        aria-hidden="true"
       >
-        {/* Griglia */}
+        {/* Griglia di sfondo */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 pointer-events-none"
+          aria-hidden="true"
           style={{
             backgroundImage:
               'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)',
@@ -204,9 +185,10 @@ export default function CarScrollSection() {
           }}
         />
 
-        {/* Strada */}
+        {/* Gradiente strada */}
         <div
-          className="absolute bottom-0 left-0 right-0"
+          className="absolute bottom-0 left-0 right-0 pointer-events-none"
+          aria-hidden="true"
           style={{
             height: '38%',
             background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%)',
@@ -214,7 +196,11 @@ export default function CarScrollSection() {
         />
 
         {/* Segni stradali */}
-        <div className="absolute left-0 right-0" style={{ bottom: '27%', height: '2px' }}>
+        <div
+          className="absolute left-0 right-0 pointer-events-none"
+          aria-hidden="true"
+          style={{ bottom: '27%', height: '2px' }}
+        >
           {Array.from({ length: 20 }).map((_, i) => (
             <div
               key={i}
@@ -226,7 +212,7 @@ export default function CarScrollSection() {
 
         {/* Speed lines */}
         <svg
-          className="absolute inset-0 w-full h-full"
+          className="absolute inset-0 w-full h-full pointer-events-none"
           aria-hidden="true"
           preserveAspectRatio="none"
         >
@@ -243,8 +229,9 @@ export default function CarScrollSection() {
         {/* Brand name */}
         <div
           ref={brandRef}
-          className="absolute inset-0 flex flex-col items-center justify-center select-none"
+          className="absolute inset-0 flex flex-col items-center justify-center select-none pointer-events-none"
           style={{ clipPath: 'inset(0 100% 0 0)' }}
+          aria-hidden="true"
         >
           <span
             className="font-display font-black text-white leading-none tracking-tighter"
@@ -270,12 +257,13 @@ export default function CarScrollSection() {
         {/* Tagline */}
         <p
           ref={taglineRef}
-          className="absolute left-0 right-0 text-center select-none font-body text-text-muted tracking-[0.25em] uppercase"
+          className="absolute left-0 right-0 text-center select-none font-body text-text-muted tracking-[0.25em] uppercase pointer-events-none"
           style={{
             bottom: '20%',
             fontSize: 'clamp(0.65rem, 1.2vw, 0.875rem)',
             opacity: 0,
           }}
+          aria-hidden="true"
         >
           Noleggio &amp; Vendita Auto · Parma
         </p>
@@ -283,8 +271,9 @@ export default function CarScrollSection() {
         {/* Auto + scia */}
         <div
           ref={carWrapRef}
-          className="absolute"
+          className="absolute pointer-events-none"
           style={{ bottom: '22%', left: 0, willChange: 'transform' }}
+          aria-hidden="true"
         >
           {/* Scia */}
           <div
@@ -299,6 +288,8 @@ export default function CarScrollSection() {
                 'linear-gradient(to right, transparent, rgba(196,28,12,0.05) 40%, rgba(200,200,220,0.03))',
               filter: 'blur(10px)',
               transformOrigin: 'right center',
+              transform: 'scaleX(0)',
+              opacity: 0,
             }}
           />
           {/* Cono luci */}
@@ -315,9 +306,9 @@ export default function CarScrollSection() {
           />
           <CarSVG className="relative z-10 w-[clamp(420px,52vw,780px)]" />
         </div>
-      </div>
+      </section>
 
-      {/* ── Mobile: layout statico (< 768px) ── */}
+      {/* ── Mobile: layout statico ── */}
       <div className="md:hidden w-full bg-bg py-16 px-6 flex flex-col items-center gap-6">
         <CarSVG className="w-[80vw] max-w-[360px]" />
         <div className="text-center">
