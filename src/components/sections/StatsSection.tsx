@@ -66,15 +66,10 @@ function OdometerNumber({
       className="font-mono font-extrabold text-accent text-[clamp(2.5rem,6vw,4.5rem)] leading-none flex items-end"
       aria-label={`${value}${suffix}`}
     >
-      {triggered
-        ? chars.map((ch, i) => (
-            <OdometerDigit key={i} digit={ch} delay={i * 0.06} />
-          ))
-        : chars.map((ch, i) => (
-            <span key={i} className="font-mono font-extrabold text-accent leading-none">
-              {ch}
-            </span>
-          ))}
+      {/* Sempre OdometerDigit — quando non triggered, anima verso 0 */}
+      {chars.map((ch, i) => (
+        <OdometerDigit key={i} digit={triggered ? ch : /\d/.test(ch) ? '0' : ch} delay={triggered ? i * 0.06 : 0} />
+      ))}
       <span className="font-mono font-extrabold text-accent leading-none">{suffix}</span>
     </p>
   )
@@ -108,7 +103,7 @@ export function StatsSection() {
   return (
     <section
       ref={ref}
-      className="bg-surface-2 py-20 overflow-hidden"
+      className="bg-surface py-20 overflow-hidden"
       aria-label="Statistiche Daunia Cars"
     >
       <div className="container-custom">
