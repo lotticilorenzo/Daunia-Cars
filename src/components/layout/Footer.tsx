@@ -32,7 +32,7 @@ export function Footer() {
               DAUNIA CARS
             </Link>
             <p className="font-body text-sm text-text-secondary leading-relaxed">
-              Noleggio e vendita auto a Parma dal 2010.
+              Noleggio e vendita auto a Parma. Nati dalla passione di due ragazzi, in crescita ogni giorno.
             </p>
             <div className="flex items-center gap-4 mt-2">
               <a

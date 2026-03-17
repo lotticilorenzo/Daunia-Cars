@@ -28,29 +28,19 @@ interface ValueItem {
 
 const timeline: TimelineItem[] = [
   {
-    year: '2018',
-    title: "Nasce l'idea",
-    description: 'Prima sede operativa aperta a Parma. Un progetto nato dalla passione per il mondo automotive e dalla voglia di fare le cose diversamente.',
-  },
-  {
-    year: '2019',
-    title: 'Flotta in crescita',
-    description: 'Prime 50 auto disponibili al noleggio. La risposta del territorio fu immediata: Parma aveva bisogno di un operatore locale serio.',
-  },
-  {
-    year: '2021',
-    title: 'Espansione servizi',
-    description: "Aggiunta dei servizi di permuta e finanziamenti personalizzati. Un'offerta completa per ogni esigenza di mobilità.",
-  },
-  {
-    year: '2023',
-    title: 'Nuova sede',
-    description: 'Trasferimento nella sede attuale di Strada Langhirano 264/1. Spazi più grandi, accoglienza migliore, stesso spirito.',
-  },
-  {
     year: '2024',
-    title: 'Oggi',
-    description: 'Oltre 500 veicoli gestiti, clienti in tutta la provincia di Parma e in Emilia-Romagna. La storia continua.',
+    title: "Nasce l'idea",
+    description: "Tutto parte da una conversazione tra due amici con la stessa passione: il mondo dell'auto. L'idea era semplice — fare le cose per bene, con onestà, in una città che meritava di meglio.",
+  },
+  {
+    year: '2025',
+    title: 'Apriamo le porte',
+    description: 'Prima sede operativa a Strada Langhirano 264/1, Parma. Pochi veicoli, tanta cura. I primi clienti arrivano per passaparola e restano per la serietà.',
+  },
+  {
+    year: '2026',
+    title: 'La flotta cresce',
+    description: 'Noleggio breve, noleggio lungo termine, vendita e permuta: il catalogo si allarga settimana dopo settimana. Il territorio risponde. E noi continuiamo ad ascoltare.',
   },
 ]
 
@@ -68,7 +58,7 @@ const values: ValueItem[] = [
   {
     icon: <Handshake size={32} weight="fill" className="text-accent" aria-hidden="true" />,
     title: 'Prossimità',
-    description: "Siamo a Parma da anni. Conosciamo le esigenze del territorio e costruiamo relazioni vere con ogni cliente.",
+    description: "Siamo due ragazzi di Parma. Conosciamo il territorio, ci siamo dentro ogni giorno e costruiamo relazioni vere con chi si affida a noi.",
   },
 ]
 
@@ -183,8 +173,8 @@ export function ChiSiamoClient() {
             className="font-display font-extrabold leading-none tracking-tight mb-6"
             style={{ fontSize: 'clamp(2.75rem, 8vw, 7rem)' }}
           >
-            <span className="block text-text-primary">Il nostro impegno,</span>
-            <span className="block italic text-accent">ogni giorno.</span>
+            <span className="block text-text-primary">Nati dalla passione,</span>
+            <span className="block italic text-accent">in crescita.</span>
           </motion.h1>
 
           <motion.p
@@ -193,7 +183,7 @@ export function ChiSiamoClient() {
             transition={{ duration: 0.5, delay: 0.18 }}
             className="font-body text-[18px] text-text-secondary max-w-[55ch] leading-relaxed"
           >
-            Siamo il nuovo punto di riferimento per chi cerca qualità, trasparenza e soluzioni su misura nel mondo automotive parmense.
+            Daunia Cars nasce dalla collaborazione di due ragazzi con un obiettivo preciso: portare a Parma un modo nuovo di comprare e noleggiare auto — trasparente, concreto, senza fronzoli.
           </motion.p>
         </div>
       </section>
@@ -227,10 +217,10 @@ export function ChiSiamoClient() {
             {/* Right: body copy */}
             <div className="flex flex-col gap-5">
               <p className="font-body text-[17px] text-text-secondary leading-relaxed">
-                Selezioniamo ogni veicolo con cura, offriamo condizioni trasparenti e costruiamo relazioni vere con i nostri clienti. Non siamo un concessionario anonimo: siamo persone che abitano a Parma, conoscono il territorio e si prendono cura di chi si affida a loro.
+                Siamo partiti in due, con una sede e tanta voglia di fare bene. Niente grandi strutture, niente burocrazia inutile — solo persone reali che parlano con persone reali. Selezioniamo ogni veicolo con cura e offriamo condizioni chiare, senza sorprese.
               </p>
               <p className="font-body text-[17px] text-text-secondary leading-relaxed">
-                Ogni volta che un cliente ci sceglie, ci prende a cuore. Per questo lavoriamo ogni giorno per meritare quella fiducia — con professionalità, ascolto e nessuna promessa che non siamo in grado di mantenere.
+                La realtà è che stiamo crescendo giorno dopo giorno, un cliente alla volta. E ogni nuovo cliente che ci sceglie ci dà la conferma che la strada che abbiamo imboccato è quella giusta.
               </p>
             </div>
           </motion.div>
