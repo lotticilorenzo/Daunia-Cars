@@ -5,12 +5,12 @@ export const metadata: Metadata = {
   title: 'Finanziamenti Auto Parma — Soluzioni Personalizzate | Daunia Cars',
   description:
     "Finanziamenti personalizzati per l'acquisto auto a Parma. Tasso fisso, leasing e balloon. Risposta in 48 ore.",
-  alternates: { canonical: 'https://daunia.cars/finanziamenti' },
+  alternates: { canonical: 'https://www.dauniacars.it/finanziamenti' },
   openGraph: {
     title: 'Finanziamenti Auto Parma — Soluzioni Personalizzate | Daunia Cars',
     description:
       "Finanziamenti personalizzati per l'acquisto auto a Parma. Tasso fisso, leasing e balloon. Risposta in 48 ore.",
-    url: 'https://daunia.cars/finanziamenti',
+    url: 'https://www.dauniacars.it/finanziamenti',
   },
   twitter: {
     card: 'summary_large_image',

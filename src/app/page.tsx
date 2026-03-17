@@ -15,13 +15,13 @@ export const metadata: Metadata = {
   title: 'Daunia Cars — Noleggio e Vendita Auto a Parma',
   description:
     'Noleggio auto breve e lungo termine, vendita veicoli garantiti, permuta e finanziamenti a Parma. Qualità, trasparenza e soluzioni su misura. Scopri la flotta Daunia Cars.',
-  alternates: { canonical: 'https://daunia.cars/' },
+  alternates: { canonical: 'https://www.dauniacars.it/' },
   openGraph: {
     title: 'Daunia Cars — Noleggio e Vendita Auto a Parma',
     description:
       'Noleggio auto breve e lungo termine, vendita veicoli garantiti, permuta e finanziamenti a Parma.',
-    url: 'https://daunia.cars/',
-    images: [{ url: '/og/homepage.jpg', width: 1200, height: 630 }],
+    url: 'https://www.dauniacars.it/',
+    images: [{ url: 'https://www.dauniacars.it/api/og?title=Daunia+Cars&sub=Noleggio+e+Vendita+Auto+a+Parma', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',

@@ -18,6 +18,7 @@ interface ServiceBlock {
   imageAlt: string
   href: string
   imageRight: boolean
+  cta: string
 }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -36,9 +37,10 @@ const services: ServiceBlock[] = [
     ],
     imageSrc: 'https://picsum.photos/seed/car-keys/800/600',
     imageSeed: 'car-keys',
-    imageAlt: 'Chiavi auto noleggio breve',
+    imageAlt: 'Chiavi auto noleggio breve — Daunia Cars Parma',
     href: '/noleggio-breve',
     imageRight: true,
+    cta: 'Richiedi Preventivo',
   },
   {
     badge: 'NOLEGGIO LUNGO TERMINE',
@@ -53,9 +55,10 @@ const services: ServiceBlock[] = [
     ],
     imageSrc: 'https://picsum.photos/seed/business-car/800/600',
     imageSeed: 'business-car',
-    imageAlt: 'Auto aziendale noleggio lungo termine',
+    imageAlt: 'Auto aziendale noleggio lungo termine — Daunia Cars Parma',
     href: '/noleggio-lungo',
     imageRight: false,
+    cta: 'Prenota un Appuntamento',
   },
   {
     badge: 'VENDITA & PERMUTA',
@@ -70,9 +73,10 @@ const services: ServiceBlock[] = [
     ],
     imageSrc: 'https://picsum.photos/seed/car-showroom/800/600',
     imageSeed: 'car-showroom',
-    imageAlt: 'Showroom vendita auto usate',
+    imageAlt: 'Showroom vendita auto usate garantite — Daunia Cars Parma',
     href: '/vendita',
     imageRight: true,
+    cta: 'Scopri la Flotta',
   },
 ]
 
@@ -126,7 +130,7 @@ function ServiceBlockItem({ service }: { service: ServiceBlock }) {
         </motion.ul>
 
         <MagneticButton variant="outline" href={service.href} className="mt-6">
-          Scopri di più
+          {service.cta}
         </MagneticButton>
       </div>
 

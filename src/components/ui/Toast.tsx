@@ -139,7 +139,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       <div
         aria-live="polite"
         aria-label="Notifiche"
-        className="fixed bottom-6 right-6 z-[99990] flex flex-col gap-3 items-end"
+        className="fixed bottom-24 right-6 z-[99990] flex flex-col gap-3 items-end"
       >
         <AnimatePresence mode="popLayout">
           {toasts.map((t) => (
