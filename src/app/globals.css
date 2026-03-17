@@ -1,0 +1,221 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────
+   CSS CUSTOM PROPERTIES — Daunia Cars Design System
+   ───────────────────────────────────────────── */
+:root {
+  /* ── Backgrounds — micro tinta blu
+     Crea profondità e fa pop il rosso per contrasto cromatico.
+     Effetto "cruscotto auto premium". Cambiamento quasi impercettibile
+     singolarmente, decisivo nel look finale. */
+  --color-bg:           #09090D;
+  --color-surface:      #111118;
+  --color-surface-2:    #1A1A26;
+  --color-border:       #252538;
+  --color-border-light: #353550;
+
+  /* ── Accent — Rosso Italiano #C41C0C
+     Tra Alfa Romeo Rosso e Ferrari Rosso Corsa.
+     Legge come "rosso" non "arancio": DNA Emilia-Romagna motorsport.
+     Nessun competitor nel settore NLT/vendita usa questo colore su dark. */
+  --color-accent:      #C41C0C;
+  --color-accent-dark: #961408;
+  --color-accent-glow: rgba(196, 28, 12, 0.15);
+
+  /* ── Testo */
+  --color-text-primary:   #F2EEE6;
+  --color-text-secondary: #888898;
+  --color-text-muted:     #4A4A5C;
+
+  /* ── Speciali */
+  --color-chrome: #A8B2C2;   /* Silver freddo-blu: alluminio aeronautico */
+  --color-gold:   #C4963A;   /* Oro Emiliano: badge premium, highlight lusso */
+
+  /* ── Ombre */
+  --shadow-accent:    0 4px 24px rgba(196, 28, 12, 0.14);
+  --shadow-accent-lg: 0 8px 40px rgba(196, 28, 12, 0.22);
+
+  /* Container */
+  --container-max:     1400px;
+  --container-padding: clamp(1rem, 5vw, 5rem);
+
+  /* Z-index strutturati */
+  --z-base:     0;
+  --z-raised:   10;
+  --z-dropdown: 50;
+  --z-sticky:   80;
+  --z-navbar:   100;
+  --z-modal:    200;
+  --z-toast:    300;
+  --z-noise:    9999;
+}
+
+/* ─────────────────────────────────────────────
+   RESET BASE
+   ───────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img,
+video {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* Focus visibile — accessibilità */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ─────────────────────────────────────────────
+   NOISE OVERLAY — body::after
+   Grana cinematografica globale, z-index 9999
+   ───────────────────────────────────────────── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-noise);
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 300px 300px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    display: none;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   UTILITY CLASSES
+   ───────────────────────────────────────────── */
+
+/* Famiglie font */
+.font-display {
+  font-family: var(--font-barlow-condensed), sans-serif;
+}
+
+.font-body {
+  font-family: var(--font-dm-sans), sans-serif;
+}
+
+.font-mono {
+  font-family: var(--font-jetbrains-mono), monospace;
+}
+
+/* Container */
+.container-custom {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+/* Sezione padding verticale */
+.section-padding {
+  padding-block: clamp(4rem, 10vw, 10rem);
+}
+
+/* Label stile Daunia — uppercase monospace piccolo */
+.label-tag {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* Liquid glass */
+.glass {
+  background: rgba(9, 9, 13, 0.75);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Skeleton shimmer */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface) 25%,
+    var(--color-surface-2) 50%,
+    var(--color-surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Scroll progress */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-accent);
+  transform-origin: left;
+  z-index: var(--z-navbar);
+}
+
+/* Testo con max-width leggibile */
+.prose-width {
+  max-width: 65ch;
+}

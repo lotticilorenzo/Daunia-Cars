@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm list:*)",
+      "Bash(npm run:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm install:*)",
+      "Bash(dir \"C:/Users/lotti/Desktop/fernando-sito-auto/src/app\")",
+      "WebFetch(domain:www.leasys.com)",
+      "WebFetch(domain:www.aldautomotive.com)",
+      "WebFetch(domain:www.arval.it)",
+      "WebFetch(domain:www.maggiore.it)",
+      "WebFetch(domain:ferrari.com)",
+      "WebFetch(domain:lamborghini.com)",
+      "WebFetch(domain:polestar.com)",
+      "WebFetch(domain:pagani.com)"
+    ]
+  }
+}

@@ -1,0 +1,77 @@
+import type { Testimonial } from '@/types'
+
+export const testimonials: Testimonial[] = [
+  {
+    id: 't001',
+    name: 'Marco Ferretti',
+    role: 'Libero professionista',
+    rating: 5,
+    text: 'Ho noleggiato un SUV per 3 settimane. Tutto perfetto: auto pulitissima, prezzo onesto, nessuna sorpresa in fattura. Tornerò sicuramente.',
+    service: 'noleggio-breve',
+    date: '2025-01-15',
+    verified: true,
+  },
+  {
+    id: 't002',
+    name: 'Laura Bianchi',
+    role: 'Impiegata',
+    rating: 5,
+    text: 'Ho fatto la permuta della mia vecchia auto e acquistato un\'utilitaria. Valutazione giusta, pratiche veloci, personale davvero competente.',
+    service: 'permuta',
+    date: '2024-11-08',
+    verified: true,
+  },
+  {
+    id: 't003',
+    name: 'Giovanni Tartari',
+    role: 'Titolare PMI',
+    rating: 5,
+    text: 'Noleggio lungo termine per la mia attività. Gestisco tutto in modo semplice, il canone fisso mi ha aiutato a pianificare le spese. Lo consiglio a ogni azienda.',
+    service: 'noleggio-lungo',
+    date: '2024-09-22',
+    verified: true,
+  },
+  {
+    id: 't004',
+    name: 'Silvia Rosetti',
+    role: 'Consulente',
+    rating: 5,
+    text: 'Ero indecisa tra acquisto e noleggio lungo termine. Mi hanno spiegato tutto con pazienza, senza fretta. Alla fine ho scelto il NLT e ne sono felicissima.',
+    service: 'noleggio-lungo',
+    date: '2024-07-14',
+    verified: true,
+  },
+]
+
+export const buyerTestimonials: Testimonial[] = [
+  {
+    id: 't005',
+    name: 'Andrea Conti',
+    role: 'Artigiano',
+    rating: 5,
+    text: 'Cercavo un furgone usato affidabile per il lavoro. L\'ho trovato qui, revisionato e con garanzia. Tre mesi dopo ancora tutto perfetto.',
+    service: 'vendita',
+    date: '2024-10-30',
+    verified: true,
+  },
+  {
+    id: 't006',
+    name: 'Francesca Merli',
+    role: 'Insegnante',
+    rating: 5,
+    text: 'Prima auto acquistata dopo la patente. Mi hanno guidata passo per passo senza che mi sentissi mai a disagio. Auto perfetta, finanziamento conveniente.',
+    service: 'vendita',
+    date: '2024-08-05',
+    verified: true,
+  },
+  {
+    id: 't007',
+    name: 'Roberto Serafini',
+    role: 'Commerciante',
+    rating: 5,
+    text: 'Valutazione permuta equa, documentazione rapida. L\'auto che ho preso è esattamente come descritto. Lavoro pulito.',
+    service: 'permuta',
+    date: '2024-12-18',
+    verified: true,
+  },
+]
