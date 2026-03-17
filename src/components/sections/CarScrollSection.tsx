@@ -2,7 +2,6 @@
 
 import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useLenis } from '@/components/ui/SmoothScrollProvider'
 
 // ─── SVG Auto ─────────────────────────────────────────────────────────────────
@@ -48,8 +47,8 @@ function CarSVG({ className }: { className?: string }) {
       <circle cx="175" cy="228" r="22" fill="#D0D0DC" opacity="0.9" />
       <circle cx="175" cy="228" r="9" fill="#2A2A30" />
       {[0,60,120,180,240,300].map((deg, i) => {
-        const r = (deg * Math.PI) / 180
-        return <line key={i} x1={175+9*Math.cos(r)} y1={228+9*Math.sin(r)} x2={175+22*Math.cos(r)} y2={228+22*Math.sin(r)} stroke="#3A3A42" strokeWidth="2.5" />
+        const rad = (deg * Math.PI) / 180
+        return <line key={i} x1={175+9*Math.cos(rad)} y1={228+9*Math.sin(rad)} x2={175+22*Math.cos(rad)} y2={228+22*Math.sin(rad)} stroke="#3A3A42" strokeWidth="2.5" />
       })}
       <circle cx="175" cy="228" r="44" fill="none" stroke="#0A0A0C" strokeWidth="8" />
       <path d="M665 215 Q665 170 712 170 Q759 170 759 215 Z" fill="#141416" />
@@ -58,8 +57,8 @@ function CarSVG({ className }: { className?: string }) {
       <circle cx="712" cy="228" r="22" fill="#D0D0DC" opacity="0.9" />
       <circle cx="712" cy="228" r="9" fill="#2A2A30" />
       {[0,60,120,180,240,300].map((deg, i) => {
-        const r = (deg * Math.PI) / 180
-        return <line key={i} x1={712+9*Math.cos(r)} y1={228+9*Math.sin(r)} x2={712+22*Math.cos(r)} y2={228+22*Math.sin(r)} stroke="#3A3A42" strokeWidth="2.5" />
+        const rad = (deg * Math.PI) / 180
+        return <line key={i} x1={712+9*Math.cos(rad)} y1={228+9*Math.sin(rad)} x2={712+22*Math.cos(rad)} y2={228+22*Math.sin(rad)} stroke="#3A3A42" strokeWidth="2.5" />
       })}
       <circle cx="712" cy="228" r="44" fill="none" stroke="#0A0A0C" strokeWidth="8" />
       <path d="M340 67 L625 66" stroke="#3A3A42" strokeWidth="2.5" strokeLinecap="round" />
@@ -69,148 +68,126 @@ function CarSVG({ className }: { className?: string }) {
 
 // ─── Componente principale ────────────────────────────────────────────────────
 export default function CarScrollSection() {
-  // spacerRef = sezione esterna 300vh che crea lo spazio di scroll
-  const spacerRef = useRef<HTMLElement>(null)
-  // stickyRef = contenitore sticky 100vh che resta nel viewport
-  const stickyRef = useRef<HTMLDivElement>(null)
+  const spacerRef  = useRef<HTMLElement>(null)   // 300vh — crea spazio scroll
+  const stickyRef  = useRef<HTMLDivElement>(null) // 100vh sticky — resta nel viewport
   const carWrapRef = useRef<HTMLDivElement>(null)
-  const trailRef = useRef<HTMLDivElement>(null)
-  const brandRef = useRef<HTMLDivElement>(null)
+  const trailRef   = useRef<HTMLDivElement>(null)
+  const brandRef   = useRef<HTMLDivElement>(null)
   const taglineRef = useRef<HTMLParagraphElement>(null)
 
-  // Lenis è già sincronizzato con ScrollTrigger in SmoothScrollProvider
   const lenis = useLenis()
 
   useEffect(() => {
-    // Aspetta che Lenis sia pronto (garantisce che lenis.on('scroll', ScrollTrigger.update) sia attivo)
     if (!lenis) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    const spacer = spacerRef.current
+    const spacer  = spacerRef.current
     const carWrap = carWrapRef.current
-    const trail = trailRef.current
-    const brand = brandRef.current
+    const trail   = trailRef.current
+    const brand   = brandRef.current
     const tagline = taglineRef.current
     if (!spacer || !carWrap || !trail || !brand || !tagline) return
 
-    // Check prefers-reduced-motion
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    // ── Stato iniziale ─────────────────────────────────────────────────────────
+    gsap.set(carWrap, { x: '-30vw' })
+    gsap.set(brand,   { clipPath: 'inset(0 100% 0 0)' })
+    gsap.set(tagline, { opacity: 0, y: 16 })
+    gsap.set(trail,   { scaleX: 0, opacity: 0, transformOrigin: 'right center' })
 
-    gsap.registerPlugin(ScrollTrigger)
+    // ── Misura la sezione nel documento ────────────────────────────────────────
+    // Usiamo offsetTop invece di getBoundingClientRect() per avere la posizione
+    // assoluta indipendentemente dallo scroll corrente
+    let sectionTop = 0
+    let scrollable = 0
 
-    const ctx = gsap.context(() => {
-      // Stato iniziale
+    const measure = () => {
+      // Risali la catena degli offsetParent per la posizione assoluta
+      let top = 0
+      let node: HTMLElement | null = spacer
+      while (node) {
+        top += node.offsetTop
+        node = node.offsetParent as HTMLElement | null
+      }
+      sectionTop = top
+      scrollable = spacer.offsetHeight - window.innerHeight
+    }
+    measure()
+
+    const onResize = () => {
+      measure()
+      // Reset posizione auto quando la viewport cambia
       gsap.set(carWrap, { x: '-30vw' })
-      gsap.set(brand, { clipPath: 'inset(0 100% 0 0)' })
-      gsap.set(tagline, { opacity: 0, y: 16 })
-      gsap.set(trail, { scaleX: 0, opacity: 0, transformOrigin: 'right center' })
+    }
+    window.addEventListener('resize', onResize)
 
-      // ── Auto: da -30vw a +130vw lungo tutto lo scroll della sezione ──
-      gsap.to(carWrap, {
-        x: '130vw',
-        ease: 'none',
-        scrollTrigger: {
-          trigger: spacer,
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub: 1.5,
-          invalidateOnRefresh: true,
-        },
-      })
+    // ── Handler scroll — chiamato da Lenis ad ogni frame ────────────────────────
+    // Lenis v1.x emette 'this' come argomento: { scroll, limit, velocity, ... }
+    const onScroll = (lenisInstance: { scroll: number }) => {
+      const s = lenisInstance.scroll
 
-      // ── Scia: appare (0→35%) e scompare (75→100%) ──
-      gsap.to(trail, {
-        scaleX: 1,
-        opacity: 0.85,
-        ease: 'power1.out',
-        scrollTrigger: {
-          trigger: spacer,
-          start: 'top top',
-          end: '35% top',
-          scrub: 1,
-          invalidateOnRefresh: true,
-        },
-      })
-      gsap.to(trail, {
-        opacity: 0,
-        ease: 'power1.in',
-        scrollTrigger: {
-          trigger: spacer,
-          start: '75% top',
-          end: 'bottom bottom',
-          scrub: 1,
-          invalidateOnRefresh: true,
-        },
+      // Fuori dalla sezione: reset e ignora
+      if (s < sectionTop - 10 || s > sectionTop + scrollable + 10) {
+        if (s < sectionTop) {
+          gsap.set(carWrap, { x: '-30vw' })
+          gsap.set(brand,   { clipPath: 'inset(0 100% 0 0)' })
+          gsap.set(tagline, { opacity: 0, y: 16 })
+          gsap.set(trail,   { scaleX: 0, opacity: 0 })
+        }
+        return
+      }
+
+      // Progress 0 → 1 attraverso la sezione
+      const p = Math.min(1, Math.max(0, (s - sectionTop) / scrollable))
+
+      // ── Auto: -30vw → 130vw ──
+      gsap.set(carWrap, { x: `${-30 + p * 160}vw` })
+
+      // ── Scia ──
+      gsap.set(trail, {
+        scaleX:  Math.min(1, p * 4),
+        opacity: p < 0.78
+          ? Math.min(0.85, p * 4)
+          : Math.max(0, (1 - p) * 4.5),
       })
 
-      // ── Brand: wipe-in (20→50%), stabile, wipe-out (70→90%) ──
-      gsap.to(brand, {
-        clipPath: 'inset(0 0% 0 0)',
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: spacer,
-          start: '20% top',
-          end: '50% top',
-          scrub: 1,
-          invalidateOnRefresh: true,
-        },
-      })
-      gsap.to(brand, {
-        clipPath: 'inset(0 0% 0 100%)',
-        ease: 'power2.in',
-        scrollTrigger: {
-          trigger: spacer,
-          start: '70% top',
-          end: '90% top',
-          scrub: 1,
-          invalidateOnRefresh: true,
-        },
-      })
+      // ── Brand name ──
+      if (p < 0.22) {
+        gsap.set(brand,   { clipPath: 'inset(0 100% 0 0)' })
+        gsap.set(tagline, { opacity: 0, y: 16 })
+      } else if (p < 0.50) {
+        const bp = (p - 0.22) / 0.28
+        gsap.set(brand,   { clipPath: `inset(0 ${Math.round((1 - bp) * 100)}% 0 0)` })
+        gsap.set(tagline, { opacity: Math.min(1, bp * 2.5), y: Math.max(0, 16 * (1 - bp * 2.5)) })
+      } else if (p < 0.72) {
+        gsap.set(brand,   { clipPath: 'inset(0 0% 0 0)' })
+        gsap.set(tagline, { opacity: 1, y: 0 })
+      } else {
+        const bp = (p - 0.72) / 0.28
+        gsap.set(brand,   { clipPath: `inset(0 0% 0 ${Math.round(bp * 100)}%)` })
+        gsap.set(tagline, { opacity: Math.max(0, 1 - bp * 3) })
+      }
+    }
 
-      // ── Tagline: fade-up (25→50%), fade-out (72→88%) ──
-      gsap.to(tagline, {
-        opacity: 1,
-        y: 0,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: spacer,
-          start: '25% top',
-          end: '50% top',
-          scrub: 1,
-          invalidateOnRefresh: true,
-        },
-      })
-      gsap.to(tagline, {
-        opacity: 0,
-        y: -8,
-        ease: 'power2.in',
-        scrollTrigger: {
-          trigger: spacer,
-          start: '72% top',
-          end: '88% top',
-          scrub: 1,
-          invalidateOnRefresh: true,
-        },
-      })
-
-      // Refresh per misure corrette dopo mount
-      setTimeout(() => ScrollTrigger.refresh(), 150)
-    })
+    // ── Registra il listener e triggera lo stato iniziale ──────────────────────
+    lenis.on('scroll', onScroll)
+    // Triggera subito per settare lo stato in base allo scroll corrente
+    onScroll({ scroll: lenis.scroll })
 
     return () => {
-      ctx.revert()
+      lenis.off('scroll', onScroll)
+      window.removeEventListener('resize', onResize)
     }
   }, [lenis])
 
   return (
     <>
-      {/* ── Desktop: spacer 300vh + sticky 100vh ── */}
+      {/* ── Desktop: 300vh spacer + 100vh sticky scene ── */}
       <section
         ref={spacerRef}
         className="hidden md:block relative"
         style={{ height: '300vh' }}
         aria-label="Daunia Cars — in movimento"
       >
-        {/* Il div sticky resta nel viewport mentre si scrolla il spacer */}
         <div
           ref={stickyRef}
           className="sticky top-0 w-full bg-bg overflow-hidden"
@@ -230,10 +207,7 @@ export default function CarScrollSection() {
           {/* Gradiente strada */}
           <div
             className="absolute bottom-0 left-0 right-0 pointer-events-none"
-            style={{
-              height: '38%',
-              background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%)',
-            }}
+            style={{ height: '38%', background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%)' }}
           />
 
           {/* Segni stradali */}
@@ -251,21 +225,16 @@ export default function CarScrollSection() {
           </div>
 
           {/* Speed lines */}
-          <svg
-            className="absolute inset-0 w-full h-full pointer-events-none"
-            preserveAspectRatio="none"
-          >
+          <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none">
             {[12, 25, 38, 48, 57, 67, 75, 84].map((y, i) => (
-              <line
-                key={i}
-                x1="0" y1={`${y}%`} x2="100%" y2={`${y}%`}
+              <line key={i} x1="0" y1={`${y}%`} x2="100%" y2={`${y}%`}
                 stroke="rgba(196,28,12,0.1)"
                 strokeWidth={i % 3 === 0 ? '1.5' : '0.8'}
               />
             ))}
           </svg>
 
-          {/* Brand name */}
+          {/* Brand DAUNIA CARS */}
           <div
             ref={brandRef}
             className="absolute inset-0 flex flex-col items-center justify-center select-none pointer-events-none"
@@ -300,7 +269,6 @@ export default function CarScrollSection() {
             className="absolute pointer-events-none"
             style={{ bottom: '22%', left: 0, willChange: 'transform' }}
           >
-            {/* Scia */}
             <div
               ref={trailRef}
               className="absolute"
@@ -314,14 +282,10 @@ export default function CarScrollSection() {
                 transformOrigin: 'right center',
               }}
             />
-            {/* Cono luci */}
             <div
               className="absolute"
               style={{
-                left: '-25%',
-                top: '15%',
-                width: '30%',
-                height: '70%',
+                left: '-25%', top: '15%', width: '30%', height: '70%',
                 background: 'linear-gradient(to left, transparent, rgba(220,235,255,0.03))',
                 filter: 'blur(14px)',
               }}
