@@ -1,52 +1,38 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
-import { useLenis } from '@/components/ui/SmoothScrollProvider'
-import { prefersReducedMotion } from '@/lib/gsap-utils'
 
 export default function CarScrollSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const videoRef   = useRef<HTMLVideoElement>(null)
-  const lenis      = useLenis()
 
-  // Pre-load video as soon as the component mounts
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-    video.preload = 'auto'
-    video.load()
-  }, [])
-
-  // Wire up scroll scrubbing once Lenis is ready
   useEffect(() => {
     const video   = videoRef.current
     const section = sectionRef.current
-    if (!video || !section || !lenis) return
+    if (!video || !section) return
 
-    if (prefersReducedMotion()) {
-      video.currentTime = 0
-      return
-    }
+    // Start downloading the video immediately
+    video.load()
 
-    // Lenis fires this on every smooth-scroll frame with the real scroll position
-    const onScroll = ({ scroll }: { scroll: number }) => {
-      const sectionTop    = section.offsetTop
-      const sectionHeight = section.offsetHeight
-      const scrolled      = scroll - sectionTop                    // px past section top
-      const total         = sectionHeight - window.innerHeight     // total scrub distance
-      const progress      = Math.max(0, Math.min(1, scrolled / total))
+    let rafId: number
 
-      if (video.readyState >= 2 && video.duration > 0) {
-        video.currentTime = progress * video.duration
+    const loop = () => {
+      const rect    = section.getBoundingClientRect()
+      const scrolled = -rect.top                        // px past the section top
+      const total    = rect.height - window.innerHeight // total scrub distance
+
+      if (total > 0 && video.duration > 0) {
+        const progress        = Math.max(0, Math.min(1, scrolled / total))
+        video.currentTime     = progress * video.duration
       }
+
+      rafId = requestAnimationFrame(loop)
     }
 
-    lenis.on('scroll', onScroll)
+    rafId = requestAnimationFrame(loop)
 
-    return () => {
-      lenis.off('scroll', onScroll)
-    }
-  }, [lenis])
+    return () => cancelAnimationFrame(rafId)
+  }, [])
 
   return (
     <section
@@ -55,11 +41,10 @@ export default function CarScrollSection() {
       style={{ height: '400vh' }}
       aria-label="BMW — video scomponimento"
     >
-      {/* Sticky viewport */}
+      {/* Sticky viewport — stays at top while 400vh section scrolls */}
       <div
         className="sticky top-0 w-full bg-black overflow-hidden"
         style={{ height: '100vh' }}
-        aria-hidden="true"
       >
         <video
           ref={videoRef}
