@@ -1,57 +1,52 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
-import { gsap } from 'gsap'
+import { useLenis } from '@/components/ui/SmoothScrollProvider'
 import { prefersReducedMotion } from '@/lib/gsap-utils'
 
 export default function CarScrollSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const videoRef   = useRef<HTMLVideoElement>(null)
+  const lenis      = useLenis()
 
+  // Pre-load video as soon as the component mounts
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    video.preload = 'auto'
+    video.load()
+  }, [])
+
+  // Wire up scroll scrubbing once Lenis is ready
   useEffect(() => {
     const video   = videoRef.current
     const section = sectionRef.current
-    if (!video || !section) return
-
-    // Force browser to load the full video immediately
-    video.preload = 'auto'
-    video.load()
+    if (!video || !section || !lenis) return
 
     if (prefersReducedMotion()) {
       video.currentTime = 0
       return
     }
 
-    let lastProgress = -1
+    // Lenis fires this on every smooth-scroll frame with the real scroll position
+    const onScroll = ({ scroll }: { scroll: number }) => {
+      const sectionTop    = section.offsetTop
+      const sectionHeight = section.offsetHeight
+      const scrolled      = scroll - sectionTop                    // px past section top
+      const total         = sectionHeight - window.innerHeight     // total scrub distance
+      const progress      = Math.max(0, Math.min(1, scrolled / total))
 
-    // GSAP ticker fires every frame — Lenis is already synced to it via
-    // SmoothScrollProvider, so this is in perfect lockstep with smooth scroll.
-    const tick = () => {
-      const rect = section.getBoundingClientRect()
-
-      // Skip when section is completely out of view
-      if (rect.top > window.innerHeight || rect.bottom < 0) return
-
-      const scrolled  = -rect.top                        // px scrolled into section
-      const total     = rect.height - window.innerHeight // total scrollable distance
-      const progress  = Math.max(0, Math.min(1, scrolled / total))
-
-      // Avoid redundant seeks when nothing changed
-      if (Math.abs(progress - lastProgress) < 0.0002) return
-      lastProgress = progress
-
-      // Only seek once the browser has at least the current frame decoded
       if (video.readyState >= 2 && video.duration > 0) {
         video.currentTime = progress * video.duration
       }
     }
 
-    gsap.ticker.add(tick)
+    lenis.on('scroll', onScroll)
 
     return () => {
-      gsap.ticker.remove(tick)
+      lenis.off('scroll', onScroll)
     }
-  }, [])
+  }, [lenis])
 
   return (
     <section
@@ -60,7 +55,7 @@ export default function CarScrollSection() {
       style={{ height: '400vh' }}
       aria-label="BMW — video scomponimento"
     >
-      {/* Sticky frame — stays at top while section scrolls */}
+      {/* Sticky viewport */}
       <div
         className="sticky top-0 w-full bg-black overflow-hidden"
         style={{ height: '100vh' }}
