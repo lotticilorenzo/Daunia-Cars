@@ -144,10 +144,15 @@ export function TestimonialsSection() {
                 setIsPaused(true)
               }}
               className={cn(
-                'w-2 h-2 rounded-full transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
-                i === activeIndex ? 'bg-accent' : 'bg-border'
+                'relative flex items-center justify-center w-8 h-8',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full'
               )}
-            />
+            >
+              <span className={cn(
+                'w-2 h-2 rounded-full transition-colors duration-200',
+                i === activeIndex ? 'bg-accent' : 'bg-border'
+              )} />
+            </button>
           ))}
         </div>
       </div>

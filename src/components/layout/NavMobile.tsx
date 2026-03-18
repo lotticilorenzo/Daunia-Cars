@@ -108,7 +108,7 @@ export function NavMobile({ isOpen, onClose }: NavMobileProps) {
             </motion.nav>
 
             {/* CTA bottom */}
-            <div className="px-6 py-6 border-t border-border">
+            <div className="px-4 py-4 border-t border-border">
               <MagneticButton
                 variant="primary"
                 size="lg"

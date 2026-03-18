@@ -89,7 +89,7 @@ function ServiceBlockItem({ service }: { service: ServiceBlock }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.6 }}
-      className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+      className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center"
     >
       {/* Text content */}
       <div className={service.imageRight ? '' : 'lg:order-last'}>
@@ -160,7 +160,7 @@ function ServiceBlockItem({ service }: { service: ServiceBlock }) {
 
 export function ServicesSection() {
   return (
-    <section className="bg-bg py-[140px]" aria-labelledby="services-heading">
+    <section className="bg-bg py-20 md:py-[140px]" aria-labelledby="services-heading">
       <div className="container-custom">
         {/* Header */}
         <div>
@@ -177,7 +177,7 @@ export function ServicesSection() {
         </div>
 
         {/* Service blocks */}
-        <div className="flex flex-col gap-[60px] mt-20">
+        <div className="flex flex-col gap-12 md:gap-[60px] mt-12 md:mt-20">
           {services.map((service) => (
             <ServiceBlockItem key={service.badge} service={service} />
           ))}

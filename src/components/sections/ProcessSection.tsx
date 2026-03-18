@@ -210,19 +210,19 @@ export function ProcessSection() {
           ref={card1Ref}
           className={cn(
             'min-h-[100vh] flex items-center justify-center bg-surface',
-            'px-[8vw] py-20'
+            'px-5 sm:px-[8vw] py-16 sm:py-20'
           )}
         >
-          <div className="container-custom grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
+          <div className="container-custom grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center w-full">
             {/* Text */}
-            <div className="flex flex-col gap-6">
-              <p className="font-mono font-bold text-[48px] text-text-muted leading-none">
+            <div className="flex flex-col gap-5 lg:gap-6">
+              <p className="font-mono font-bold text-[clamp(2rem,8vw,3rem)] text-text-muted leading-none">
                 01
               </p>
-              <h2 className="font-display font-bold text-[clamp(2.25rem,5vw,3.75rem)] text-text-primary leading-tight">
+              <h2 className="font-display font-bold text-[clamp(1.75rem,5vw,3.75rem)] text-text-primary leading-tight">
                 Scegli il veicolo
               </h2>
-              <p className="font-body text-[16px] text-text-secondary leading-relaxed max-w-[45ch]">
+              <p className="font-body text-[15px] sm:text-[16px] text-text-secondary leading-relaxed max-w-[45ch]">
                 Esplora la nostra flotta di oltre 500 veicoli selezionati.
                 Filtra per categoria, disponibilità e budget. Trova l&apos;auto
                 giusta in pochi click, senza compromessi.
@@ -233,8 +233,8 @@ export function ProcessSection() {
                 </MagneticButton>
               </div>
             </div>
-            {/* SVG */}
-            <div className="flex items-center justify-center">
+            {/* SVG — hidden on small mobile */}
+            <div className="hidden sm:flex items-center justify-center">
               <CirclesSVG animate={shouldAnimate} />
             </div>
           </div>
@@ -245,23 +245,23 @@ export function ProcessSection() {
           ref={card2Ref}
           className={cn(
             'min-h-[100vh] flex items-center justify-center bg-surface-2',
-            'px-[8vw] py-20'
+            'px-5 sm:px-[8vw] py-16 sm:py-20'
           )}
         >
-          <div className="container-custom grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
-            {/* SVG left on desktop */}
-            <div className="order-2 lg:order-1 flex items-center justify-center">
+          <div className="container-custom grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center w-full">
+            {/* SVG left on desktop — hidden on small mobile */}
+            <div className="hidden sm:flex order-2 lg:order-1 items-center justify-center">
               <DotGridSVG animate={shouldAnimate} />
             </div>
             {/* Text right on desktop */}
-            <div className="order-1 lg:order-2 flex flex-col gap-6">
-              <p className="font-mono font-bold text-[48px] text-text-muted leading-none">
+            <div className="order-1 lg:order-2 flex flex-col gap-5 lg:gap-6">
+              <p className="font-mono font-bold text-[clamp(2rem,8vw,3rem)] text-text-muted leading-none">
                 02
               </p>
-              <h2 className="font-display font-bold text-[clamp(2.25rem,5vw,3.75rem)] text-text-primary leading-tight">
+              <h2 className="font-display font-bold text-[clamp(1.75rem,5vw,3.75rem)] text-text-primary leading-tight">
                 Personalizza la soluzione
               </h2>
-              <p className="font-body text-[16px] text-text-secondary leading-relaxed max-w-[45ch]">
+              <p className="font-body text-[15px] sm:text-[16px] text-text-secondary leading-relaxed max-w-[45ch]">
                 Noleggio breve, lungo termine o acquisto diretto? Ti aiutiamo a
                 trovare la formula più conveniente. Configuriamo insieme durata,
                 chilometraggio e servizi inclusi.
@@ -280,7 +280,7 @@ export function ProcessSection() {
           ref={card3Ref}
           className={cn(
             'relative min-h-[100vh] flex items-center justify-center bg-bg',
-            'px-[8vw] py-20 overflow-hidden'
+            'px-5 sm:px-[8vw] py-16 sm:py-20 overflow-hidden'
           )}
         >
           {/* Accent glow bottom */}
@@ -293,16 +293,16 @@ export function ProcessSection() {
             }}
           />
 
-          <div className="container-custom grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full relative z-10">
+          <div className="container-custom grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center w-full relative z-10">
             {/* Text */}
-            <div className="flex flex-col gap-6">
-              <p className="font-mono font-bold text-[48px] text-text-muted leading-none">
+            <div className="flex flex-col gap-5 lg:gap-6">
+              <p className="font-mono font-bold text-[clamp(2rem,8vw,3rem)] text-text-muted leading-none">
                 03
               </p>
-              <h2 className="font-display font-bold text-[clamp(2.25rem,5vw,3.75rem)] text-text-primary leading-tight">
+              <h2 className="font-display font-bold text-[clamp(1.75rem,5vw,3.75rem)] text-text-primary leading-tight">
                 Mettiti al volante
               </h2>
-              <p className="font-body text-[16px] text-text-secondary leading-relaxed max-w-[45ch]">
+              <p className="font-body text-[15px] sm:text-[16px] text-text-secondary leading-relaxed max-w-[45ch]">
                 Pratiche rapide, consegna in sede o a domicilio. Nessuna
                 sorpresa in fattura. Partiamo insieme: la tua prossima auto ti
                 aspetta.
@@ -313,8 +313,8 @@ export function ProcessSection() {
                 </MagneticButton>
               </div>
             </div>
-            {/* SVG */}
-            <div className="flex items-center justify-center">
+            {/* SVG — hidden on small mobile */}
+            <div className="hidden sm:flex items-center justify-center">
               <EcgSVG animate={shouldAnimate} />
             </div>
           </div>

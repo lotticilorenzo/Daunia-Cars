@@ -46,7 +46,7 @@ export function FleetPreviewSection() {
   }, [activeTab])
 
   return (
-    <section className={cn('bg-bg py-[120px]')}>
+    <section className={cn('bg-bg py-20 md:py-[120px]')}>
       <div className="container-custom">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">

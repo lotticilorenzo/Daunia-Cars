@@ -110,7 +110,7 @@ export function VenditaClient() {
               Auto garantite.{' '}
               <span className="italic text-accent">Prezzi onesti.</span>
             </h1>
-            <p className="font-body text-[18px] text-text-secondary mt-4 max-w-[560px]">
+            <p className="font-body text-[15px] sm:text-[18px] text-text-secondary mt-4 max-w-[560px]">
               Ogni auto è stata selezionata, revisionata e testata. Nessuna
               sorpresa dopo l&apos;acquisto.
             </p>
@@ -144,7 +144,7 @@ export function VenditaClient() {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-border">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-border">
             {guarantees.map(({ icon: Icon, title, description }, i) => (
               <motion.div
                 key={title}

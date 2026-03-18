@@ -189,7 +189,7 @@ export function FinanziamentiClient() {
             <h1 className="font-display font-extrabold text-[clamp(2.5rem,7vw,5rem)] text-text-primary tracking-tight leading-none mb-4">
               Il finanziamento che si adatta a te
             </h1>
-            <p className="font-body text-[18px] text-text-secondary">
+            <p className="font-body text-[15px] sm:text-[18px] text-text-secondary">
               Tasso fisso, leasing e balloon. Soluzioni per privati e aziende.
             </p>
           </motion.div>

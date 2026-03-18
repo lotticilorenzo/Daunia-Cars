@@ -253,7 +253,7 @@ export function BlogClient() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.18 }}
-            className="font-body text-[18px] text-text-secondary max-w-[55ch] leading-relaxed"
+            className="font-body text-[15px] sm:text-[18px] text-text-secondary max-w-[55ch] leading-relaxed"
           >
             Approfondimenti, consigli pratici e novità dal mondo automotive parmense.
           </motion.p>

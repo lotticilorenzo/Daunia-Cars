@@ -63,7 +63,7 @@ function OdometerNumber({
 
   return (
     <p
-      className="font-mono font-extrabold text-accent text-[clamp(2.5rem,6vw,4.5rem)] leading-none flex items-end"
+      className="font-mono font-extrabold text-accent text-[clamp(1.75rem,6vw,4.5rem)] leading-none flex items-end"
       aria-label={`${value}${suffix}`}
     >
       {/* Sempre OdometerDigit — quando non triggered, anima verso 0 */}
@@ -114,7 +114,7 @@ export function StatsSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="flex flex-col items-center justify-center gap-2 py-8 px-4"
+              className="flex flex-col items-center justify-center gap-2 py-6 px-3 sm:py-8 sm:px-4"
             >
               <OdometerNumber
                 value={stat.value}

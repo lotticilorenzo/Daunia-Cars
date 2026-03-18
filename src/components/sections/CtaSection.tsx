@@ -15,20 +15,20 @@ export function CtaSection() {
         <h2 className="font-display font-extrabold text-[clamp(2.5rem,7vw,5.5rem)] text-white tracking-tight leading-none">
           Pronto a partire?
         </h2>
-        <p className="font-body text-[18px] text-white/80 mt-2">
+        <p className="font-body text-[16px] sm:text-[18px] text-white/80 mt-2">
           Parla con noi oggi. Risposta entro 24 ore.
         </p>
         <div className="flex flex-col sm:flex-row items-center gap-5 mt-8">
           <a
             href="/contatti"
-            className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-white text-accent font-body font-semibold text-base hover:bg-white/90 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 rounded-full bg-white text-accent font-body font-semibold text-base hover:bg-white/90 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             aria-label="Prenota un appuntamento"
           >
             Prenota Ora
           </a>
           <a
             href="tel:+390521000000"
-            className="inline-flex items-center justify-center px-8 py-4 rounded-full border-2 border-white text-white font-body font-semibold text-base hover:bg-white/10 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 rounded-full border-2 border-white text-white font-body font-semibold text-base hover:bg-white/10 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             aria-label="Chiama Daunia Cars"
           >
             Chiama Ora

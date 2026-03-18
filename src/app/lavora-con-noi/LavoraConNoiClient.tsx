@@ -218,7 +218,7 @@ export function LavoraConNoiClient() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.16 }}
-            className="font-body text-[18px] text-text-secondary max-w-[52ch]"
+            className="font-body text-[15px] sm:text-[18px] text-text-secondary max-w-[52ch]"
           >
             Cerchiamo persone motivate e appassionate di automotive. Candidatura spontanea sempre aperta.
           </motion.p>

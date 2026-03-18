@@ -48,7 +48,7 @@ export default function HeroSection() {
     <section
       className={cn(
         'relative min-h-[100dvh] flex flex-col justify-end',
-        'pb-[12vh] pl-[8vw] pr-[8vw]',
+        'pb-[10vh] px-5 sm:px-[8vw]',
         'overflow-hidden'
       )}
     >
@@ -103,14 +103,14 @@ export default function HeroSection() {
         {/* Subtitle */}
         <p
           ref={subtitleRef}
-          className="font-body text-[18px] text-text-secondary max-w-[48ch] leading-relaxed mt-4"
+          className="font-body text-[16px] sm:text-[18px] text-text-secondary max-w-[48ch] leading-relaxed mt-4"
         >
           Auto selezionate, noleggio flessibile, trasparenza reale. Daunia Cars
           è il punto di riferimento per la mobilità a Parma.
         </p>
 
         {/* CTAs */}
-        <div ref={ctasRef} className="flex flex-row gap-4 mt-8">
+        <div ref={ctasRef} className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-8">
           <MagneticButton variant="primary" href="/flotta">
             Scopri la Flotta
           </MagneticButton>

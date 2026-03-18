@@ -200,7 +200,7 @@ export function ContattiClient() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.16 }}
-            className="font-body text-[18px] text-text-secondary max-w-[50ch] mb-10"
+            className="font-body text-[16px] sm:text-[18px] text-text-secondary max-w-[50ch] mb-10"
           >
             Vieni a trovarci o scrivici. Risponderemo entro 24 ore.
           </motion.p>

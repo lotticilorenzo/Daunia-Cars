@@ -70,7 +70,7 @@ export function ManifestoSection() {
   return (
     <section
       ref={sectionRef}
-      className="bg-bg min-h-[60vh] py-[120px] relative overflow-hidden"
+      className="bg-bg min-h-[60vh] py-20 md:py-[120px] relative overflow-hidden"
       aria-labelledby="manifesto-heading"
     >
       {/* Background parallax image */}
@@ -87,7 +87,7 @@ export function ManifestoSection() {
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 max-w-[900px] mx-auto px-6 text-center">
+      <div className="relative z-10 max-w-[900px] mx-auto px-5 sm:px-6 text-center">
         {/* Label */}
         <p className="font-mono text-[11px] text-text-muted uppercase tracking-[0.15em] mb-10">
           LA NOSTRA FILOSOFIA

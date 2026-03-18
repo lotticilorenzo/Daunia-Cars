@@ -100,7 +100,7 @@ export function FlottaClient() {
               La nostra flotta
             </h1>
 
-            <p className="font-body text-[18px] text-text-secondary leading-relaxed">
+            <p className="font-body text-[15px] sm:text-[18px] text-text-secondary leading-relaxed">
               Noleggio breve, noleggio lungo termine e vendita garantita.
               Trova il veicolo su misura per le tue esigenze a Parma.
             </p>

@@ -101,7 +101,7 @@ export function PermutaClient() {
             <h1 className="font-display font-extrabold text-[clamp(2.5rem,7vw,5rem)] text-text-primary tracking-tight leading-none mb-4">
               Valuta la tua auto gratis
             </h1>
-            <p className="font-body text-[18px] text-text-secondary mb-8">
+            <p className="font-body text-[15px] sm:text-[18px] text-text-secondary mb-8">
               Risposta entro 24 ore. Valutazione equa e senza impegno.
             </p>
             <MagneticButton variant="primary" href="#form-permuta">

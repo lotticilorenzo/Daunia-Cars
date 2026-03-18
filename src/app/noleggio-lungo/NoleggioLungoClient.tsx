@@ -225,7 +225,7 @@ export function NoleggioLungoClient() {
   return (
     <>
       {/* ── Sezione 1: Hero ─────────────────────────────────────────────── */}
-      <section className="relative min-h-[55vh] flex flex-col justify-end pb-20 px-[8vw] overflow-hidden">
+      <section className="relative min-h-[55vh] flex flex-col justify-end pb-16 sm:pb-20 px-5 sm:px-[8vw] overflow-hidden">
         <Image
           src="https://picsum.photos/seed/office-parking/1920/700"
           alt="Parcheggio aziendale con auto a noleggio lungo termine Daunia Cars"
@@ -270,7 +270,7 @@ export function NoleggioLungoClient() {
             </span>
           </h1>
 
-          <p className="font-body text-[17px] text-text-secondary mb-8 max-w-[52ch]">
+          <p className="font-body text-[15px] sm:text-[17px] text-text-secondary mb-8 max-w-[52ch]">
             Per privati e aziende. Da 12 a 48 mesi. Tutto incluso nel canone mensile.
           </p>
 
