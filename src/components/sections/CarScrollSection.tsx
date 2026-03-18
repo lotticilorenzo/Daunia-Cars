@@ -1,104 +1,86 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
-import { registerGSAP, prefersReducedMotion } from '@/lib/gsap-utils'
+import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
+import { prefersReducedMotion } from '@/lib/gsap-utils'
 
 export default function CarScrollSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const videoRef   = useRef<HTMLVideoElement>(null)
-  const [ready, setReady] = useState(false)
 
-  // ── Pre-caricamento metadata ──────────────────────────────────────────────
   useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-
-    const onLoaded = () => setReady(true)
-
-    if (video.readyState >= 1) {
-      setReady(true)
-    } else {
-      video.addEventListener('loadedmetadata', onLoaded)
-    }
-
-    return () => video.removeEventListener('loadedmetadata', onLoaded)
-  }, [])
-
-  // ── GSAP ScrollTrigger — scrub currentTime ────────────────────────────────
-  useEffect(() => {
-    if (!ready) return
-
-    registerGSAP()
-
     const video   = videoRef.current
     const section = sectionRef.current
     if (!video || !section) return
 
+    // Force browser to load the full video immediately
+    video.preload = 'auto'
+    video.load()
+
     if (prefersReducedMotion()) {
-      // Mostra solo il primo frame
       video.currentTime = 0
       return
     }
 
-    const ctx = gsap.context(() => {
-      // Oggetto proxy per il ticker
-      const proxy = { progress: 0 }
+    let lastProgress = -1
 
-      gsap.to(proxy, {
-        progress: 1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub: 0.5,
-          onUpdate: (self) => {
-            if (video.duration) {
-              video.currentTime = self.progress * video.duration
-            }
-          },
-        },
-      })
-    })
+    // GSAP ticker fires every frame — Lenis is already synced to it via
+    // SmoothScrollProvider, so this is in perfect lockstep with smooth scroll.
+    const tick = () => {
+      const rect = section.getBoundingClientRect()
 
-    return () => ctx.revert()
-  }, [ready])
+      // Skip when section is completely out of view
+      if (rect.top > window.innerHeight || rect.bottom < 0) return
+
+      const scrolled  = -rect.top                        // px scrolled into section
+      const total     = rect.height - window.innerHeight // total scrollable distance
+      const progress  = Math.max(0, Math.min(1, scrolled / total))
+
+      // Avoid redundant seeks when nothing changed
+      if (Math.abs(progress - lastProgress) < 0.0002) return
+      lastProgress = progress
+
+      // Only seek once the browser has at least the current frame decoded
+      if (video.readyState >= 2 && video.duration > 0) {
+        video.currentTime = progress * video.duration
+      }
+    }
+
+    gsap.ticker.add(tick)
+
+    return () => {
+      gsap.ticker.remove(tick)
+    }
+  }, [])
 
   return (
     <section
       ref={sectionRef}
       className="relative"
       style={{ height: '400vh' }}
-      aria-label="BMW — video tecnico scomponimento"
+      aria-label="BMW — video scomponimento"
     >
-      {/* ── Sticky viewport ─────────────────────────────────────────────── */}
+      {/* Sticky frame — stays at top while section scrolls */}
       <div
-        className="sticky top-0 w-full overflow-hidden bg-black"
+        className="sticky top-0 w-full bg-black overflow-hidden"
         style={{ height: '100vh' }}
         aria-hidden="true"
       >
-        {/* Fade-in dopo caricamento */}
-        <div
-          className="w-full h-full transition-opacity duration-700"
-          style={{ opacity: ready ? 1 : 0 }}
-        >
-          <video
-            ref={videoRef}
-            src="/videos/bmw-scomponimento.mp4"
-            muted
-            playsInline
-            preload="auto"
-            disablePictureInPicture
-            className="w-full h-full"
-            style={{ objectFit: 'contain', background: '#000' }}
-          />
-        </div>
+        <video
+          ref={videoRef}
+          src="/videos/bmw-scomponimento.mp4"
+          muted
+          playsInline
+          preload="auto"
+          disablePictureInPicture
+          className="w-full h-full"
+          style={{ objectFit: 'contain' }}
+        />
 
-        {/* Gradient bottom — sfuma nella sezione successiva */}
+        {/* Blends into the next section */}
         <div
           className="absolute bottom-0 left-0 right-0 pointer-events-none"
-          style={{ height: '12%', background: 'linear-gradient(to top, #09090D 0%, transparent 100%)' }}
+          style={{ height: '14%', background: 'linear-gradient(to top, #09090D 0%, transparent 100%)' }}
         />
       </div>
     </section>
