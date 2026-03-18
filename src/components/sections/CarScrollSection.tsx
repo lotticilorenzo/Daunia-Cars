@@ -28,12 +28,14 @@ export default function CarScrollSection() {
           setLoaded(true)
 
           const scrub = () => {
-            const rect    = section.getBoundingClientRect()
-            const scrolled = -rect.top
-            const total    = rect.height - window.innerHeight
+            const scrollY = window.scrollY || window.pageYOffset
+            const sectionTop = section.offsetTop
+            const sectionHeight = section.offsetHeight
+            const scrolled = scrollY - sectionTop
+            const total = sectionHeight - window.innerHeight
 
             if (total > 0) {
-              const progress    = Math.max(0, Math.min(1, scrolled / total))
+              const progress = Math.max(0, Math.min(1, scrolled / total))
               video.currentTime = progress * video.duration
             }
 
