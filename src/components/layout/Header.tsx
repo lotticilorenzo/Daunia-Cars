@@ -5,8 +5,6 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  CalendarBlank,
-  CalendarCheck,
   Car,
   ArrowsLeftRight,
   CurrencyEur,
@@ -27,33 +25,38 @@ const NAV_LINKS = [
     children: [
       {
         label: 'Noleggio Breve',
-        href: '/noleggio-breve',
-        icon: CalendarBlank,
-        desc: 'Da 1 a 30 giorni, assicurazione inclusa',
+        href: null,
+        icon: null,
+        desc: 'Disponibile a breve — stay tuned',
+        soon: true,
       },
       {
-        label: 'Noleggio Lungo',
-        href: '/noleggio-lungo',
-        icon: CalendarCheck,
-        desc: 'Da 12 a 48 mesi, canone all-inclusive',
+        label: 'Noleggio Lungo Termine',
+        href: null,
+        icon: null,
+        desc: 'Disponibile a breve — stay tuned',
+        soon: true,
       },
       {
         label: 'Vendita',
         href: '/vendita',
         icon: Car,
         desc: 'Auto usate garantite e revisionate',
+        soon: false,
       },
       {
         label: 'Permuta',
         href: '/permuta',
         icon: ArrowsLeftRight,
         desc: 'Valutazione gratuita in 24 ore',
+        soon: false,
       },
       {
         label: 'Finanziamenti',
         href: '/finanziamenti',
         icon: CurrencyEur,
         desc: 'Tasso fisso, leasing e balloon',
+        soon: false,
       },
     ],
   },
@@ -225,24 +228,44 @@ export const Header = memo(function Header() {
                 style={{ zIndex: 50 }}
               >
                 <div className="grid grid-cols-2 gap-2">
-                  {NAV_LINKS.find((l) => l.label === 'Servizi')?.children?.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="flex items-start gap-3 p-3 rounded-xl hover:bg-surface-2 transition-colors duration-150 group"
-                      onClick={() => setMegaOpen(false)}
-                    >
-                      <span className="mt-0.5 p-2 rounded-lg bg-accent/10 text-accent shrink-0">
-                        <item.icon size={18} weight="regular" aria-hidden="true" />
-                      </span>
-                      <div>
-                        <p className="font-body font-semibold text-sm text-text-primary group-hover:text-accent transition-colors">
-                          {item.label}
-                        </p>
-                        <p className="font-body text-xs text-text-muted mt-0.5">{item.desc}</p>
+                  {NAV_LINKS.find((l) => l.label === 'Servizi')?.children?.map((item) =>
+                    item.soon ? (
+                      <div
+                        key={item.label}
+                        className="flex items-start gap-3 p-3 rounded-xl opacity-50 cursor-default"
+                      >
+                        <span className="mt-0.5 p-2 rounded-lg bg-border/30 text-text-muted shrink-0">
+                          <span className="block w-[18px] h-[18px]" aria-hidden="true" />
+                        </span>
+                        <div>
+                          <p className="flex items-center gap-1.5 font-body font-semibold text-sm text-text-muted">
+                            {item.label}
+                            <span className="font-mono text-[9px] uppercase tracking-wider bg-accent/10 text-accent border border-accent/20 px-1.5 py-0.5 rounded-full leading-none">
+                              Presto
+                            </span>
+                          </p>
+                          <p className="font-body text-xs text-text-muted mt-0.5">{item.desc}</p>
+                        </div>
                       </div>
-                    </Link>
-                  ))}
+                    ) : (
+                      <Link
+                        key={item.href}
+                        href={item.href!}
+                        className="flex items-start gap-3 p-3 rounded-xl hover:bg-surface-2 transition-colors duration-150 group"
+                        onClick={() => setMegaOpen(false)}
+                      >
+                        <span className="mt-0.5 p-2 rounded-lg bg-accent/10 text-accent shrink-0">
+                          {item.icon && <item.icon size={18} weight="regular" aria-hidden="true" />}
+                        </span>
+                        <div>
+                          <p className="font-body font-semibold text-sm text-text-primary group-hover:text-accent transition-colors">
+                            {item.label}
+                          </p>
+                          <p className="font-body text-xs text-text-muted mt-0.5">{item.desc}</p>
+                        </div>
+                      </Link>
+                    )
+                  )}
                 </div>
               </motion.div>
             </>

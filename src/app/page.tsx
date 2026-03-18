@@ -12,22 +12,22 @@ import { CtaSection } from '@/components/sections/CtaSection'
 import { localBusinessJsonLd } from '@/lib/seo'
 
 export const metadata: Metadata = {
-  title: 'Daunia Cars — Noleggio e Vendita Auto a Parma',
+  title: 'Daunia Cars — Vendita Auto a Parma',
   description:
-    'Noleggio auto breve e lungo termine, vendita veicoli garantiti, permuta e finanziamenti a Parma. Qualità, trasparenza e soluzioni su misura. Scopri la flotta Daunia Cars.',
+    'Vendita veicoli usati garantiti, permuta e finanziamenti a Parma. Qualità, trasparenza e soluzioni su misura. Scopri la flotta Daunia Cars.',
   alternates: { canonical: 'https://www.dauniacars.it/' },
   openGraph: {
-    title: 'Daunia Cars — Noleggio e Vendita Auto a Parma',
+    title: 'Daunia Cars — Vendita Auto a Parma',
     description:
-      'Noleggio auto breve e lungo termine, vendita veicoli garantiti, permuta e finanziamenti a Parma.',
+      'Vendita veicoli usati garantiti, permuta e finanziamenti a Parma. Qualità e trasparenza.',
     url: 'https://www.dauniacars.it/',
-    images: [{ url: 'https://www.dauniacars.it/api/og?title=Daunia+Cars&sub=Noleggio+e+Vendita+Auto+a+Parma', width: 1200, height: 630 }],
+    images: [{ url: 'https://www.dauniacars.it/api/og?title=Daunia+Cars&sub=Vendita+Auto+a+Parma', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Daunia Cars — Noleggio e Vendita Auto a Parma',
+    title: 'Daunia Cars — Vendita Auto a Parma',
     description:
-      'Noleggio auto breve e lungo termine, vendita veicoli garantiti, permuta e finanziamenti a Parma.',
+      'Vendita veicoli usati garantiti, permuta e finanziamenti a Parma.',
   },
 }
 

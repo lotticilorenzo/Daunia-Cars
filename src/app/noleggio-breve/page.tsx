@@ -1,25 +1,18 @@
 import type { Metadata } from 'next'
-import { NoleggioBreveClient } from './NoleggioBreveClient'
+import { ComingSoonPage } from '@/components/ui/ComingSoonPage'
 
 export const metadata: Metadata = {
-  title: 'Noleggio Auto Breve Termine a Parma | Daunia Cars',
+  title: 'Noleggio Breve Termine — Prossimamente | Daunia Cars',
   description:
-    'Noleggio auto a breve termine a Parma da 1 a 30 giorni. Assicurazione inclusa, flotta aggiornata, consegna a domicilio. Prenota online in 2 minuti.',
-  alternates: { canonical: 'https://www.dauniacars.it/noleggio-breve' },
-  openGraph: {
-    title: 'Noleggio Auto Breve Termine a Parma | Daunia Cars',
-    description:
-      'Noleggio auto a breve termine a Parma da 1 a 30 giorni. Assicurazione inclusa, flotta aggiornata, consegna a domicilio. Prenota online in 2 minuti.',
-    url: 'https://www.dauniacars.it/noleggio-breve',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Noleggio Auto Breve Termine a Parma | Daunia Cars',
-    description:
-      'Noleggio auto a breve termine a Parma da 1 a 30 giorni. Assicurazione inclusa, flotta aggiornata, consegna a domicilio. Prenota online in 2 minuti.',
-  },
+    'Il servizio di noleggio breve termine di Daunia Cars è in arrivo. Torna presto o contattaci per maggiori informazioni.',
+  robots: { index: false, follow: false },
 }
 
 export default function NoleggioBreve() {
-  return <NoleggioBreveClient />
+  return (
+    <ComingSoonPage
+      service="Noleggio Breve Termine"
+      description="Da 1 a 30 giorni, assicurazione inclusa. Stiamo preparando tutto per offrirtelo al meglio."
+    />
+  )
 }

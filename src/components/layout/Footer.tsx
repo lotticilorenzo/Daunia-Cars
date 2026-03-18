@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { MapPin, Phone, Envelope, Clock, FacebookLogo, InstagramLogo, WhatsappLogo } from '@phosphor-icons/react/dist/ssr'
 
-const SERVICES_LINKS = [
-  { label: 'Noleggio Breve', href: '/noleggio-breve' },
-  { label: 'Noleggio Lungo Termine', href: '/noleggio-lungo' },
+const SERVICES_LINKS: { label: string; href: string | null; soon?: boolean }[] = [
+  { label: 'Noleggio Breve', href: null, soon: true },
+  { label: 'Noleggio Lungo Termine', href: null, soon: true },
   { label: 'Vendita Auto', href: '/vendita' },
   { label: 'Permuta', href: '/permuta' },
   { label: 'Finanziamenti', href: '/finanziamenti' },
@@ -13,7 +13,6 @@ const COMPANY_LINKS = [
   { label: 'Chi Siamo', href: '/chi-siamo' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contatti', href: '/contatti' },
-  { label: 'Lavora con Noi', href: '/lavora-con-noi' },
 ]
 
 export function Footer() {
@@ -32,7 +31,7 @@ export function Footer() {
               DAUNIA CARS
             </Link>
             <p className="font-body text-sm text-text-secondary leading-relaxed">
-              Noleggio e vendita auto a Parma. Nati dalla passione di due ragazzi, in crescita ogni giorno.
+              Vendita auto a Parma. Nati dalla passione di due ragazzi, in crescita ogni giorno.
             </p>
             <div className="flex items-center gap-4 mt-2">
               <a
@@ -72,13 +71,24 @@ export function Footer() {
             </h3>
             <ul className="flex flex-col gap-2.5">
               {SERVICES_LINKS.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="font-body text-sm text-text-secondary hover:text-text-primary transition-colors duration-150"
-                  >
-                    {link.label}
-                  </Link>
+                <li key={link.label} className="flex items-center gap-2">
+                  {link.soon ? (
+                    <span className="font-body text-sm text-text-muted opacity-50">
+                      {link.label}
+                    </span>
+                  ) : (
+                    <Link
+                      href={link.href!}
+                      className="font-body text-sm text-text-secondary hover:text-text-primary transition-colors duration-150"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
+                  {link.soon && (
+                    <span className="font-mono text-[9px] uppercase tracking-wider bg-accent/10 text-accent border border-accent/20 px-1.5 py-0.5 rounded-full leading-none">
+                      Presto
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>

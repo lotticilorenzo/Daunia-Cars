@@ -25,42 +25,6 @@ interface ServiceBlock {
 
 const services: ServiceBlock[] = [
   {
-    badge: 'NOLEGGIO BREVE',
-    title: 'Prenota per un giorno.\nO per un mese.',
-    description:
-      'La flessibilità che ti serve, senza vincoli. Scegli il veicolo giusto per ogni occasione con tariffe chiare e tutto incluso.',
-    advantages: [
-      'Flotta sempre aggiornata',
-      'Zero costi nascosti',
-      'Consegna inclusa su Parma',
-      'Assistenza 24 ore su 24',
-    ],
-    imageSrc: 'https://picsum.photos/seed/car-keys/800/600',
-    imageSeed: 'car-keys',
-    imageAlt: 'Chiavi auto noleggio breve — Daunia Cars Parma',
-    href: '/noleggio-breve',
-    imageRight: true,
-    cta: 'Richiedi Preventivo',
-  },
-  {
-    badge: 'NOLEGGIO LUNGO TERMINE',
-    title: "L'auto giusta ogni mese,\nsenza pensieri.",
-    description:
-      'Contratti da 12 a 48 mesi per privati e aziende. Manutenzione, bollo e assicurazione già inclusi nel canone.',
-    advantages: [
-      'Canone mensile fisso e deducibile',
-      'Include manutenzione ordinaria',
-      'IVA detraibile per P.IVA',
-      'Nessun imprevisto di spesa',
-    ],
-    imageSrc: 'https://picsum.photos/seed/business-car/800/600',
-    imageSeed: 'business-car',
-    imageAlt: 'Auto aziendale noleggio lungo termine — Daunia Cars Parma',
-    href: '/noleggio-lungo',
-    imageRight: false,
-    cta: 'Prenota un Appuntamento',
-  },
-  {
     badge: 'VENDITA & PERMUTA',
     title: 'Compra, vendi, permuta.\nCon garanzia reale.',
     description:
@@ -182,6 +146,37 @@ export function ServicesSection() {
             <ServiceBlockItem key={service.badge} service={service} />
           ))}
         </div>
+
+        {/* Noleggio — coming soon teaser */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6 }}
+          className="mt-12 md:mt-[60px] relative overflow-hidden rounded-2xl border border-border bg-surface-2 px-8 py-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6"
+        >
+          {/* Glow */}
+          <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-accent/5 blur-3xl pointer-events-none" aria-hidden="true" />
+
+          <div>
+            <span className="font-mono text-[10px] uppercase tracking-wider bg-accent/10 text-accent border border-accent/20 px-2.5 py-1 rounded-full inline-block mb-4">
+              Prossimamente
+            </span>
+            <h3 className="font-display font-bold text-[clamp(1.5rem,3vw,2rem)] leading-tight">
+              Noleggio Breve e Lungo Termine
+            </h3>
+            <p className="font-body text-[15px] text-text-secondary max-w-[46ch] mt-2">
+              Stiamo costruendo qualcosa di bello. Presto potrai noleggiare la tua auto — breve o lungo termine — direttamente da Daunia Cars.
+            </p>
+          </div>
+
+          <div className="shrink-0">
+            <span className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-border text-text-muted font-body text-[14px] cursor-default select-none">
+              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" aria-hidden="true" />
+              In arrivo a breve
+            </span>
+          </div>
+        </motion.div>
       </div>
     </section>
   )

@@ -16,7 +16,6 @@ import type { Vehicle } from '@/types'
 
 const TABS = [
   { id: 'tutti', label: 'Tutti' },
-  { id: 'noleggio-breve', label: 'Noleggio' },
   { id: 'vendita', label: 'Vendita' },
   { id: 'suv', label: 'SUV' },
   { id: 'berlina', label: 'Berlina' },
@@ -32,8 +31,6 @@ export function FleetPreviewSection() {
     switch (activeTab) {
       case 'tutti':
         return vehicles.slice(0, 6)
-      case 'noleggio-breve':
-        return getVehiclesByAvailability('noleggio-breve').slice(0, 6)
       case 'vendita':
         return getVehiclesByAvailability('vendita').slice(0, 6)
       case 'suv':

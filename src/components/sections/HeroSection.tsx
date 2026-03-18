@@ -105,7 +105,7 @@ export default function HeroSection() {
           ref={subtitleRef}
           className="font-body text-[16px] sm:text-[18px] text-text-secondary max-w-[48ch] leading-relaxed mt-4"
         >
-          Auto selezionate, noleggio flessibile, trasparenza reale. Daunia Cars
+          Auto selezionate, vendita trasparente, permuta e finanziamento su misura. Daunia Cars
           è il punto di riferimento per la mobilità a Parma.
         </p>
 

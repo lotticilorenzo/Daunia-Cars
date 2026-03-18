@@ -1,14 +1,18 @@
 import type { Metadata } from 'next'
-import { buildMetadata } from '@/lib/seo'
-import { LavoraConNoiClient } from './LavoraConNoiClient'
+import { ComingSoonPage } from '@/components/ui/ComingSoonPage'
 
-export const metadata: Metadata = buildMetadata({
-  title: 'Lavora con Noi | Daunia Cars',
+export const metadata: Metadata = {
+  title: 'Lavora con Noi — Prossimamente | Daunia Cars',
   description:
-    'Entra nel team Daunia Cars a Parma. Inviaci il tuo curriculum: cerchiamo persone motivate nel settore automotive. Candidatura spontanea sempre aperta.',
-  canonicalPath: '/lavora-con-noi',
-})
+    'La sezione "Lavora con noi" di Daunia Cars è in arrivo. Siamo in crescita e presto apriremo le candidature.',
+  robots: { index: false, follow: false },
+}
 
 export default function LavoraConNoiPage() {
-  return <LavoraConNoiClient />
+  return (
+    <ComingSoonPage
+      service="Lavora con Noi"
+      description="Siamo in crescita e stiamo costruendo il team. Presto potrai inviarci la tua candidatura."
+    />
+  )
 }

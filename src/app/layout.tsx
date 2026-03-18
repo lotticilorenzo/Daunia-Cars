@@ -45,10 +45,10 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: {
     template: '%s | Daunia Cars',
-    default: 'Daunia Cars — Noleggio e Vendita Auto a Parma',
+    default: 'Daunia Cars — Vendita Auto a Parma',
   },
   description:
-    'Daunia Cars: noleggio breve e lungo termine, vendita veicoli usati garantiti e permuta a Parma. Soluzioni su misura per privati e aziende.',
+    'Daunia Cars: vendita veicoli usati garantiti, permuta e finanziamenti a Parma. Soluzioni su misura per privati e aziende.',
   metadataBase: new URL('https://www.dauniacars.it'),
   manifest: '/manifest.webmanifest',
   appleWebApp: {

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, CalendarBlank, CalendarCheck, Car, ArrowsLeftRight, CurrencyEur } from '@phosphor-icons/react'
+import { X, Car, ArrowsLeftRight, CurrencyEur } from '@phosphor-icons/react'
 import { cn } from '@/lib/utils'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 
@@ -13,15 +13,12 @@ interface NavMobileProps {
 
 const NAV_ITEMS = [
   { label: 'Flotta', href: '/flotta' },
-  { label: 'Noleggio Breve', href: '/noleggio-breve', icon: CalendarBlank },
-  { label: 'Noleggio Lungo', href: '/noleggio-lungo', icon: CalendarCheck },
   { label: 'Vendita', href: '/vendita', icon: Car },
   { label: 'Permuta', href: '/permuta', icon: ArrowsLeftRight },
   { label: 'Finanziamenti', href: '/finanziamenti', icon: CurrencyEur },
   { label: 'Chi Siamo', href: '/chi-siamo' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contatti', href: '/contatti' },
-  { label: 'Lavora con Noi', href: '/lavora-con-noi' },
 ]
 
 const staggerContainer = {
