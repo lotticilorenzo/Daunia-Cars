@@ -37,6 +37,7 @@ export default function CarScrollSection() {
             if (total > 0) {
               const progress = Math.max(0, Math.min(1, scrolled / total))
               video.currentTime = progress * video.duration
+              console.log('scrollY:', scrollY, '| sectionTop:', sectionTop, '| scrolled:', scrolled, '| total:', total, '| progress:', progress.toFixed(4), '| currentTime:', video.currentTime.toFixed(3), '/ duration:', video.duration.toFixed(3))
             }
 
             rafId = requestAnimationFrame(scrub)
