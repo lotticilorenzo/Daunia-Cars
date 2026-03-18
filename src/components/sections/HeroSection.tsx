@@ -68,7 +68,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent" />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col">
+      <div className="relative z-10 flex flex-col max-w-[820px]">
         {/* Location label */}
         <div
           ref={labelRef}
@@ -84,7 +84,7 @@ export default function HeroSection() {
             ref={line1Ref}
             className={cn(
               'block',
-              'text-[clamp(3.5rem,8vw,6.5rem)] text-text-primary'
+              'text-[clamp(2.75rem,8vw,6.5rem)] text-text-primary'
             )}
           >
             LA TUA PROSSIMA AUTO
@@ -93,7 +93,7 @@ export default function HeroSection() {
             ref={line2Ref}
             className={cn(
               'block italic',
-              'text-[clamp(3.5rem,8vw,6.5rem)] text-accent'
+              'text-[clamp(2.75rem,8vw,6.5rem)] text-accent'
             )}
           >
             Ti Aspetta Qui.

@@ -12,7 +12,10 @@ export const WhatsAppFAB = memo(function WhatsAppFAB() {
   const [showTooltip, setShowTooltip] = useState(false)
 
   return (
-    <div className="fixed bottom-6 right-6 z-[90] flex flex-col items-end gap-2">
+    <div
+      className="fixed right-4 sm:right-6 z-[90] flex flex-col items-end gap-2"
+      style={{ bottom: 'max(1.25rem, calc(env(safe-area-inset-bottom) + 0.75rem))' }}
+    >
       {/* Tooltip */}
       <AnimatePresence>
         {showTooltip && (

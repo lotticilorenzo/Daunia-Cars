@@ -94,7 +94,7 @@ export function ManifestoSection() {
         </p>
 
         {/* Negative statement */}
-        <p className="font-body text-[clamp(1.125rem,2.5vw,1.5rem)] text-text-secondary max-w-[60ch] mx-auto leading-[1.7]">
+        <p className="font-body text-[clamp(0.9375rem,2.5vw,1.5rem)] text-text-secondary max-w-[60ch] mx-auto leading-[1.7]">
           La maggior parte degli autonoleggi si concentra su: quante auto
           riescono a piazzare.
         </p>
@@ -111,14 +111,14 @@ export function ManifestoSection() {
         <p
           id="manifesto-heading"
           ref={manifestoRef}
-          className="font-display font-bold italic text-[clamp(2.5rem,6vw,5rem)] text-text-primary leading-[1.1] tracking-tight"
+          className="font-display font-bold italic text-[clamp(1.5rem,5vw,5rem)] text-text-primary leading-[1.15] tracking-tight"
         >
           Noi ci concentriamo su: portarti a casa{' '}
           <span className="text-accent">soddisfatto.</span>
         </p>
 
         {/* Subtitle */}
-        <p className="font-body text-[17px] text-text-secondary max-w-[55ch] mx-auto mt-6">
+        <p className="font-body text-[14px] sm:text-[17px] text-text-secondary max-w-[55ch] mx-auto mt-6">
           Daunia Cars nasce per essere diversa. Nessuna pressione, nessun costo
           nascosto. Solo soluzioni reali per persone reali.
         </p>

@@ -44,7 +44,7 @@ function RenderSection({ section }: { section: BlogSection }) {
   switch (section.type) {
     case 'intro':
       return (
-        <p className="font-body text-[18px] text-text-secondary leading-relaxed border-l-2 border-accent pl-5 py-1">
+        <p className="font-body text-[16px] sm:text-[18px] text-text-secondary leading-relaxed border-l-2 border-accent pl-4 sm:pl-5 py-1">
           {section.text}
         </p>
       )

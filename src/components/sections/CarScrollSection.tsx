@@ -411,12 +411,12 @@ export default function CarScrollSection() {
       </section>
 
       {/* ── Mobile: layout statico ── */}
-      <div className="md:hidden w-full bg-bg py-16 px-6 flex flex-col items-center gap-6">
-        <CarSVG className="w-[80vw] max-w-[360px]" />
+      <div className="md:hidden w-full bg-bg py-12 px-5 flex flex-col items-center gap-5">
+        <CarSVG className="w-[75vw] max-w-[320px]" />
         <div className="text-center">
-          <p className="font-display font-black text-white leading-none tracking-tighter text-[2.5rem]">DAUNIA</p>
-          <p className="font-display font-black leading-none tracking-tighter text-[2.5rem] text-accent">CARS</p>
-          <p className="font-body text-text-muted text-xs uppercase tracking-[0.2em] mt-3">Noleggio &amp; Vendita Auto · Parma</p>
+          <p className="font-display font-black text-white leading-none tracking-tighter text-[clamp(1.75rem,10vw,2.5rem)]">DAUNIA</p>
+          <p className="font-display font-black leading-none tracking-tighter text-[clamp(1.75rem,10vw,2.5rem)] text-accent">CARS</p>
+          <p className="font-body text-text-muted text-[11px] uppercase tracking-[0.2em] mt-3">Noleggio &amp; Vendita Auto · Parma</p>
         </div>
       </div>
     </>

@@ -407,7 +407,8 @@ export function ConfrontoClient() {
         {hasTwo && (
           <>
             {/* Vehicle headers — 2 cols with divider */}
-            <div className="grid grid-cols-[1fr_auto_1fr] gap-6 items-start mb-10">
+            <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 pb-2">
+            <div className="grid grid-cols-[1fr_auto_1fr] gap-4 sm:gap-6 items-start mb-10 min-w-[480px]">
               <VehicleColumn vehicle={left} side="left" />
 
               {/* Center "vs" divider */}
@@ -425,6 +426,7 @@ export function ConfrontoClient() {
               </div>
 
               <VehicleColumn vehicle={right} side="right" />
+            </div>
             </div>
 
             {/* Comparison rows */}

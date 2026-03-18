@@ -39,6 +39,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const viewport: Viewport = {
   themeColor: '#C41C0C',
   colorScheme: 'dark',
+  viewportFit: 'cover',
 }
 
 export const metadata: Metadata = {

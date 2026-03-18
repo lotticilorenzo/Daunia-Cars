@@ -47,8 +47,8 @@
   --shadow-accent-lg: 0 8px 40px rgba(196, 28, 12, 0.22);
 
   /* Container */
-  --container-max:     1400px;
-  --container-padding: clamp(1rem, 5vw, 5rem);
+  --container-max:     1440px;
+  --container-padding: clamp(1.25rem, 5vw, 5rem);
 
   /* Z-index strutturati */
   --z-base:     0;
@@ -80,6 +80,8 @@ html {
   /* overflow-x: clip su html non crea scroll container (a differenza di hidden su body)
      → GSAP ScrollTrigger pin funziona correttamente */
   overflow-x: clip;
+  /* Safe area support for iOS notch / home bar */
+  padding-top: env(safe-area-inset-top);
 }
 
 @media (prefers-reduced-motion: reduce) {
