@@ -200,11 +200,11 @@ export const Header = memo(function Header() {
 
             <button
               type="button"
-              className="md:hidden flex items-center justify-center w-11 h-11 rounded-full border border-border text-text-secondary hover:text-text-primary transition-colors"
+              className="md:hidden flex items-center justify-center w-12 h-12 rounded-full border border-border text-text-secondary hover:text-text-primary transition-colors"
               onClick={() => setMobileOpen(true)}
               aria-label="Apri menu di navigazione"
             >
-              <List size={20} aria-hidden="true" />
+              <List size={24} aria-hidden="true" />
             </button>
           </div>
         </motion.nav>

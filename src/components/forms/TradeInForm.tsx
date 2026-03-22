@@ -61,7 +61,7 @@ function FloatingInput({ label, registerProps, error, type = 'text' }: FloatingI
         type={type}
         placeholder=" "
         className={cn(
-          'peer w-full bg-transparent border-b border-border pt-5 pb-2 font-body text-[16px] text-text-primary placeholder-transparent focus:outline-none transition-colors',
+          'peer w-full bg-transparent border-b border-border pt-5 pb-2 font-body text-[16px] text-text-primary placeholder-transparent focus:outline-none transition-colors rounded-none',
           error ? 'border-b-[#E05252]' : 'focus:border-b-accent',
         )}
       />
@@ -104,7 +104,7 @@ function FloatingSelect({
       <select
         {...registerProps}
         className={cn(
-          'w-full bg-transparent border-b border-border py-2 font-body text-[16px] text-text-primary focus:outline-none transition-colors appearance-none cursor-pointer',
+          'w-full bg-transparent border-b border-border py-2 font-body text-[16px] text-text-primary focus:outline-none transition-colors appearance-none cursor-pointer rounded-none',
           error ? 'border-b-[#E05252]' : 'focus:border-b-accent',
         )}
       >

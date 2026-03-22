@@ -189,9 +189,11 @@ export function VehicleDetailClient({ vehicle }: VehicleDetailClientProps) {
                     src={galleryImages[selectedImage]}
                     alt={`${vehicle.brand} ${vehicle.name} — immagine ${selectedImage + 1}`}
                     fill
-                    sizes="(max-width: 1024px) 100vw, 60vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 60vw"
                     className="object-cover"
                     priority
+                    placeholder="blur"
+                    blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNicgaGVpZ2h0PSc5JyB2aWV3Qm94PScwIDAgMTYgOSc+PHJlY3Qgd2lkdGg9JzE2JyBoZWlnaHQ9JzknIGZpbGw9JyMzMzMnLz48L3N2Zz4="
                   />
                 </motion.div>
               </AnimatePresence>

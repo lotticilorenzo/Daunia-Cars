@@ -1,7 +1,6 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
-import Image from 'next/image'
 import { MapPin, CaretDoubleDown } from '@phosphor-icons/react'
 import { cn } from '@/lib/utils'
 import { registerGSAP, prefersReducedMotion } from '@/lib/gsap-utils'
@@ -52,20 +51,24 @@ export default function HeroSection() {
         'overflow-hidden'
       )}
     >
-      {/* Background image */}
+      {/* Background video */}
       <div className="absolute inset-0 -z-10">
-        <Image
-          src="https://picsum.photos/seed/highway-night/1920/1080"
-          alt="Autostrada notturna — sfondo sezione hero Daunia Cars"
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          disablePictureInPicture
+          aria-hidden="true"
+          className="w-full h-full object-cover"
+          src="/videos/sfondo-hero.mp4"
         />
       </div>
 
-      {/* Gradient overlay */}
+      {/* Gradient overlay bottom — leggibilità testo */}
       <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent" />
+      {/* Gradient overlay top — leggibilità nav */}
+      <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/60 to-transparent pointer-events-none" />
 
       {/* Content */}
       <div className="relative z-10 flex flex-col max-w-[820px]">

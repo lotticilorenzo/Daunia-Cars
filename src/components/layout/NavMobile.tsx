@@ -69,9 +69,9 @@ export function NavMobile({ isOpen, onClose }: NavMobileProps) {
                 type="button"
                 onClick={onClose}
                 aria-label="Chiudi menu"
-                className="flex items-center justify-center w-9 h-9 rounded-full border border-border text-text-secondary hover:text-text-primary transition-colors"
+                className="flex items-center justify-center w-11 h-11 rounded-full border border-border text-text-secondary hover:text-text-primary transition-colors"
               >
-                <X size={18} aria-hidden="true" />
+                <X size={20} aria-hidden="true" />
               </button>
             </div>
 
@@ -80,7 +80,7 @@ export function NavMobile({ isOpen, onClose }: NavMobileProps) {
               variants={staggerContainer}
               initial="hidden"
               animate="visible"
-              className="flex-1 overflow-y-auto px-4 py-6 flex flex-col gap-1"
+              className="flex-1 overflow-y-auto px-4 py-8 flex flex-col gap-2"
             >
               {NAV_ITEMS.map((item) => (
                 <motion.div key={item.href} variants={itemVariant}>
@@ -88,14 +88,14 @@ export function NavMobile({ isOpen, onClose }: NavMobileProps) {
                     href={item.href}
                     onClick={onClose}
                     className={cn(
-                      'flex items-center gap-3 px-4 py-3 rounded-xl',
-                      'font-body font-medium text-base text-text-secondary',
+                      'flex items-center gap-4 px-5 py-4 rounded-xl',
+                      'font-body font-medium text-lg text-text-secondary',
                       'hover:bg-surface-2 hover:text-text-primary transition-colors duration-150'
                     )}
                   >
                     {item.icon && (
                       <span className="text-accent shrink-0">
-                        <item.icon size={18} weight="regular" aria-hidden="true" />
+                        <item.icon size={22} weight="regular" aria-hidden="true" />
                       </span>
                     )}
                     {item.label}

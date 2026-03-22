@@ -51,7 +51,7 @@ function FloatingInput({
         placeholder=" "
         readOnly={readOnly}
         className={cn(
-          'peer w-full bg-transparent border-b border-border pt-5 pb-2 font-body text-[16px] text-text-primary placeholder-transparent focus:outline-none transition-colors',
+          'peer w-full bg-transparent border-b border-border pt-5 pb-2 font-body text-[16px] text-text-primary placeholder-transparent focus:outline-none transition-colors rounded-none',
           error ? 'border-b-[#E05252]' : 'focus:border-b-accent',
           readOnly && 'cursor-default opacity-70',
         )}
@@ -399,7 +399,7 @@ export function RentalForm({ servicePreset }: RentalFormProps) {
                   {...register('notes')}
                   rows={4}
                   placeholder=" "
-                  className="peer w-full bg-transparent border-b border-border pt-5 pb-2 font-body text-[16px] text-text-primary placeholder-transparent focus:outline-none focus:border-b-accent transition-colors resize-none"
+                  className="peer w-full bg-transparent border-b border-border pt-5 pb-2 font-body text-[16px] text-text-primary placeholder-transparent focus:outline-none focus:border-b-accent transition-colors resize-none rounded-none"
                 />
                 <label className="absolute top-2 left-0 font-body text-[13px] text-text-muted transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-[16px] peer-focus:top-2 peer-focus:text-[13px] peer-focus:text-accent pointer-events-none">
                   Note aggiuntive (opzionale)

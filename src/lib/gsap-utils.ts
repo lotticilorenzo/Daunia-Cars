@@ -251,21 +251,22 @@ export function initFadeInStagger(
 export function initProcessStack(ctx: gsap.Context, cards: Element[]): void {
   ctx.add(() => {
     cards.forEach((card, i) => {
-      if (i === cards.length - 1) return // ultima card, non si scala
+      if (i === cards.length - 1) return
 
-      ScrollTrigger.create({
-        trigger: card,
-        start: 'top top',
-        end: 'bottom top',
-        pin: true,
-        pinSpacing: false,
-        onUpdate: (self) => {
-          const progress = self.progress
-          gsap.set(card, {
-            scale: 1 - progress * 0.08,
-            filter: `blur(${progress * 8}px)`,
-            opacity: 1 - progress * 0.5,
-          })
+      // Pre-hinting the browser for GPU acceleration
+      gsap.set(card, { willChange: 'transform, opacity' })
+
+      gsap.to(card, {
+        scale: 0.92,
+        opacity: 0.5,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: card,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+          pin: true,
+          pinSpacing: false,
         },
       })
     })

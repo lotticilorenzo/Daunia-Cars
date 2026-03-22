@@ -93,7 +93,9 @@ export function VenditaClient() {
           fill
           priority
           className="object-cover"
-          sizes="100vw"
+          sizes="(max-width: 768px) 800px, 100vw"
+          placeholder="blur"
+          blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNicgaGVpZ2h0PSc5JyB2aWV3Qm94PScwIDAgMTYgOSc+PHJlY3Qgd2lkdGg9JzE2JyBoZWlnaHQ9JzknIGZpbGw9JyMzMzMnLz48L3N2Zz4="
         />
         <div className="absolute inset-0 bg-gradient-to-r from-bg/90 to-bg/40" />
 

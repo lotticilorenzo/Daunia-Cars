@@ -33,33 +33,33 @@ export function Footer() {
             <p className="font-body text-sm text-text-secondary leading-relaxed">
               Vendita auto a Parma. Nati dalla passione di due ragazzi, in crescita ogni giorno.
             </p>
-            <div className="flex items-center gap-4 mt-2">
+            <div className="flex items-center gap-2 mt-4">
               <a
                 href="https://www.facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Daunia Cars su Facebook"
-                className="text-text-muted hover:text-text-primary transition-colors"
+                className="flex items-center justify-center w-11 h-11 rounded-full text-text-muted hover:text-text-primary hover:bg-surface-2 transition-all"
               >
-                <FacebookLogo size={20} weight="fill" aria-hidden="true" />
+                <FacebookLogo size={22} weight="fill" aria-hidden="true" />
               </a>
               <a
                 href="https://www.instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Daunia Cars su Instagram"
-                className="text-text-muted hover:text-text-primary transition-colors"
+                className="flex items-center justify-center w-11 h-11 rounded-full text-text-muted hover:text-text-primary hover:bg-surface-2 transition-all"
               >
-                <InstagramLogo size={20} weight="fill" aria-hidden="true" />
+                <InstagramLogo size={22} weight="fill" aria-hidden="true" />
               </a>
               <a
                 href="https://wa.me/390521000000"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Daunia Cars su WhatsApp"
-                className="text-text-muted hover:text-text-primary transition-colors"
+                className="flex items-center justify-center w-11 h-11 rounded-full text-text-muted hover:text-text-primary hover:bg-surface-2 transition-all"
               >
-                <WhatsappLogo size={20} weight="fill" aria-hidden="true" />
+                <WhatsappLogo size={22} weight="fill" aria-hidden="true" />
               </a>
             </div>
           </div>

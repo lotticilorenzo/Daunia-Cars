@@ -156,9 +156,11 @@ export const VehicleCard = memo(function VehicleCard({
             src={vehicle.images[0]}
             alt={`${vehicle.brand} ${vehicle.name} — Daunia Cars Parma`}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover"
             priority={priority}
+            placeholder="blur"
+            blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNicgaGVpZ2h0PSc5JyB2aWV3Qm94PScwIDAgMTYgOSc+PHJlY3Qgd2lkdGg9JzE2JyBoZWlnaHQ9JzknIGZpbGw9JyMzMzMnLz48L3N2Zz4="
           />
         </motion.div>
         <div className="absolute inset-0 bg-gradient-to-t from-surface/60 to-transparent" />

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Barlow_Condensed, DM_Sans, JetBrains_Mono } from 'next/font/google'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
+import { StickyCta } from '@/components/layout/StickyCta'
 import { ScrollProgress } from '@/components/ui/ScrollProgress'
 import { WhatsAppFAB } from '@/components/ui/WhatsAppFAB'
 import { CookieBanner } from '@/components/ui/CookieBanner'
@@ -12,11 +13,12 @@ import { PageTransition } from '@/components/ui/PageTransition'
 import { ToastProvider } from '@/components/ui/Toast'
 import { CompareBar } from '@/components/ui/CompareBar'
 import { ChatbotWidget } from '@/components/ui/ChatbotWidget'
+import { ThirdPartyScripts } from '@/components/analytics/ThirdPartyScripts'
 import './globals.css'
 
 const barlowCondensed = Barlow_Condensed({
   subsets: ['latin'],
-  weight: ['600', '700', '800'],
+  weight: ['700', '800'],
   style: ['normal', 'italic'],
   display: 'swap',
   variable: '--font-barlow-condensed',
@@ -24,7 +26,7 @@ const barlowCondensed = Barlow_Condensed({
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
+  weight: ['400', '500'],
   display: 'swap',
   variable: '--font-dm-sans',
 })
@@ -92,10 +94,12 @@ export default function RootLayout({
             <Header />
             <main>{children}</main>
             <Footer />
+            <StickyCta />
             <WhatsAppFAB />
             <CookieBanner />
             <CompareBar />
             <ChatbotWidget />
+            <ThirdPartyScripts />
           </ToastProvider>
         </SmoothScrollProvider>
       </body>

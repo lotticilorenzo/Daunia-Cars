@@ -33,7 +33,7 @@ function FloatingInput({ label, registerProps, error, type = 'text' }: FloatingI
         type={type}
         placeholder=" "
         className={cn(
-          'peer w-full bg-transparent border-b border-border pt-5 pb-2 font-body text-[16px] text-text-primary placeholder-transparent focus:outline-none transition-colors',
+          'peer w-full bg-transparent border-b border-border pt-5 pb-2 font-body text-[16px] text-text-primary placeholder-transparent focus:outline-none transition-colors rounded-none',
           error ? 'border-b-[#E05252]' : 'focus:border-b-accent',
         )}
       />
@@ -70,7 +70,7 @@ function FloatingSelect({ label, registerProps, error, options, placeholder = 'S
       <select
         {...registerProps}
         className={cn(
-          'w-full bg-transparent border-b border-border py-2 font-body text-[16px] text-text-primary focus:outline-none transition-colors appearance-none cursor-pointer',
+          'w-full bg-transparent border-b border-border py-2 font-body text-[16px] text-text-primary focus:outline-none transition-colors appearance-none cursor-pointer rounded-none',
           error ? 'border-b-[#E05252]' : 'focus:border-b-accent',
         )}
       >
@@ -250,15 +250,15 @@ export function ContactForm() {
       <div className="flex flex-col gap-6">
         {/* Message textarea */}
         <div className="relative flex flex-col gap-1">
-          <textarea
-            {...register('message')}
-            rows={4}
-            placeholder=" "
-            className={cn(
-              'peer w-full bg-transparent border-b border-border pt-5 pb-2 font-body text-[16px] text-text-primary placeholder-transparent focus:outline-none transition-colors resize-none',
-              errors.message ? 'border-b-[#E05252]' : 'focus:border-b-accent',
-            )}
-          />
+            <textarea
+              {...register('message')}
+              rows={4}
+              placeholder=" "
+              className={cn(
+                'peer w-full bg-transparent border-b border-border pt-5 pb-2 font-body text-[16px] text-text-primary placeholder-transparent focus:outline-none transition-colors resize-none rounded-none',
+                errors.message ? 'border-b-[#E05252]' : 'focus:border-b-accent',
+              )}
+            />
           <label className="absolute top-2 left-0 font-body text-[13px] text-text-muted transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-[16px] peer-focus:top-2 peer-focus:text-[13px] peer-focus:text-accent pointer-events-none">
             Messaggio *
           </label>

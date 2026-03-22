@@ -13,7 +13,8 @@
       "WebFetch(domain:ferrari.com)",
       "WebFetch(domain:lamborghini.com)",
       "WebFetch(domain:polestar.com)",
-      "WebFetch(domain:pagani.com)"
+      "WebFetch(domain:pagani.com)",
+      "Bash(node -e \":*)"
     ]
   }
 }
